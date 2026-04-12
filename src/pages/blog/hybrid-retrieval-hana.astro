@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Hybrid BM25 + Vector Retrieval for SAP HANA — ~/stubborncoder"
+  description="langchain-hana-retriever: BM25 keyword search meets vector similarity on SAP HANA Cloud."
+  activeLink="writing"
+>
+
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-overlay"></div>
+  <div class="post-hero-content wrap">
+    <a href="/#writing" class="post-back reveal">&#8592; Back to writing</a>
+
+    <div class="post-meta-top reveal">
+      <span>March 2026</span>
+      <span>&middot;</span>
+      <span>6 min read</span>
+      <span class="source-badge">LinkedIn</span>
+      <span class="source-badge source-badge--sap">SAP Community</span>
+    </div>
+
+    <h1 class="reveal">Hybrid BM25 + Vector<br>Retrieval for <span class="em">SAP HANA</span></h1>
+
+    <p class="post-subtitle reveal">
+      Vector search finds meaning. BM25 finds exact matches. langchain-hana-retriever
+      gives you both — with Reciprocal Rank Fusion to merge them.
+    </p>
+
+    <div class="post-tags-row reveal">
+      <span class="post-tag post-tag--ember">LangChain</span>
+      <span class="post-tag post-tag--gold">SAP HANA</span>
+      <span class="post-tag">Hybrid Search</span>
+      <span class="post-tag">RAG</span>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <article class="article">
+
+    <h2 class="reveal">The gap</h2>
+
+    <p class="reveal">
+      If you're doing RAG on SAP HANA Cloud, you've got vector search through
+      <code>langchain-hanadb</code>. But no BM25. No keyword ranking. No hybrid retrieval.
+    </p>
+
+    <p class="reveal">
+      That matters more than you think. When someone asks about <em>"article 12"</em> or
+      <em>"HR-LIQUI-2024/0003"</em>, semantic search returns vaguely related content. It
+      understands the general topic but misses the exact reference. You need keyword
+      matching for precision and vector search for understanding.
+    </p>
+
+    <h2 class="reveal">langchain-hana-retriever</h2>
+
+    <p class="reveal">
+      I built <code>langchain-hana-retriever</code> to close this gap. It provides two
+      LangChain-compatible retrievers that work directly on your HANA Cloud instance:
+    </p>
+
+    <div class="comparison reveal">
+      <div class="comparison-card">
+        <div class="card-label card-label--ember">HANABm25Retriever</div>
+        <p class="card-desc">
+          Uses <code>LOCATE</code> on NCLOB columns to fetch keyword candidates,
+          then scores with BM25Okapi in Python. Pure keyword search with proper
+          term frequency scoring.
+        </p>
+      </div>
+      <div class="comparison-card">
+        <div class="card-label card-label--gold">HANAHybridRetriever</div>
+        <p class="card-desc">
+          Combines vector and BM25 search, merging results via Reciprocal Rank
+          Fusion. Best of both worlds — semantic understanding plus exact matches.
+        </p>
+      </div>
+    </div>
+
+    <div class="code-block reveal">
+      <span class="code-label">Installation</span>
+      <span class="keyword">pip install</span> langchain-hana-retriever<br>
+      <span class="comment"># For hybrid search</span><br>
+      <span class="keyword">pip install</span> <span class="string">"langchain-hana-retriever[hybrid]"</span>
+    </div>
+
+    <h2 class="reveal">Why hybrid matters</h2>
+
+    <blockquote class="reveal">
+      <p>Vector search finds meaning, BM25 finds exact matches. Hybrid gives you both — reranked and merged.</p>
+    </blockquote>
+
+    <p class="reveal">
+      In practice, this makes a huge difference for enterprise documents. Financial
+      regulations reference specific article numbers. HR documents have internal codes.
+      Contract clauses need exact matching. Pure vector search will get you "in the
+      neighborhood" but miss the specific reference.
+    </p>
+
+    <p class="reveal">
+      The hybrid retriever runs both searches in parallel, then uses <strong>Reciprocal
+      Rank Fusion</strong> to merge the ranked results. Documents that score well on both
+      semantic similarity and keyword relevance bubble to the top.
+    </p>
+
+    <div class="takeaway reveal">
+      <div class="takeaway-label">Key points</div>
+      <ul>
+        <li><strong>Drop-in LangChain retriever</strong> — works with any LangChain chain or agent</li>
+        <li><strong>No extra infrastructure</strong> — runs on your existing HANA Cloud instance</li>
+        <li><strong>Reciprocal Rank Fusion</strong> — intelligently merges vector + keyword results</li>
+        <li><strong>BM25Okapi scoring</strong> — proper term frequency ranking, not just substring matching</li>
+        <li><strong>MIT licensed</strong> — PRs welcome</li>
+      </ul>
+    </div>
+
+    <div class="article-footer reveal">
+      <div class="article-footer-label">Resources</div>
+      <div class="resource-links">
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7434557808685064192/" target="_blank" class="original-link">Read on LinkedIn &#8594;</a>
+        <a href="https://community.sap.com/t5/artificial-intelligence-blogs-posts/bm25-and-hybrid-search-for-rag-on-sap-hana-cloud-without-pal/ba-p/14339400" target="_blank" class="original-link original-link--sap">SAP Community &#8594;</a>
+        <a href="https://github.com/stubborncoder/langchain-hana-retriever" target="_blank" class="original-link original-link--gh">GitHub &#8594;</a>
+      </div>
+    </div>
+
+  </article>
+
+  <section class="more-posts">
+    <div class="more-posts-title">More writing</div>
+    <a href="/blog/semantic-caching-hana" class="more-row">
+      <span class="more-date">2026.03</span>
+      <span class="more-title">Semantic Caching for SAP HANA Cloud</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+    <a href="/blog/langgraph-checkpoint-hana" class="more-row">
+      <span class="more-date">2026.02</span>
+      <span class="more-title">LangGraph Checkpointer for SAP HANA Cloud</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+    <a href="/blog/multimodal-embeddings" class="more-row">
+      <span class="more-date">2026.04</span>
+      <span class="more-title">Multimodal Embeddings: One Model, One Vector Space</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+  </section>
+</main>
+
+</BaseLayout>
+
+<style>
+  .post-hero { position: relative; padding: 10rem 0 4rem; overflow: hidden; }
+  .post-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1920&q=80') center/cover no-repeat; filter: blur(8px) saturate(0.3) brightness(0.25); transform: scale(1.05); transition: filter var(--ease); }
+  :global([data-theme="light"]) .post-hero-bg { filter: blur(8px) saturate(0.35) brightness(1.1); }
+  .post-hero-overlay { position: absolute; inset: 0; background: var(--hero-overlay); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%); }
+  .post-hero-content { position: relative; z-index: 2; max-width: 720px; }
+  .post-back { font-size: 0.75rem; color: var(--text-lo); display: inline-flex; align-items: center; gap: 6px; margin-bottom: 2rem; transition: color 0.2s; text-decoration: none; }
+  .post-back:hover { color: var(--ember); }
+  .post-meta-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.72rem; color: var(--text-lo); flex-wrap: wrap; }
+  .source-badge { padding: 2px 8px; border-radius: 3px; border: 1px solid var(--ember-border); color: var(--ember); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .source-badge--sap { color: var(--gold); border-color: rgba(212,166,69,0.2); }
+  .post-hero h1 { font-family: 'Libre Baskerville', serif; font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 400; line-height: 1.25; color: var(--text-hi); letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .post-hero h1 .em { color: var(--ember); font-style: italic; }
+  .post-subtitle { font-size: 1rem; color: var(--text); max-width: 560px; line-height: 1.8; }
+  .post-tags-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .post-tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--text-lo); }
+  .post-tag--ember { color: var(--ember); border-color: var(--ember-border); background: var(--ember-glow); }
+  .post-tag--gold { color: var(--gold); border-color: rgba(212,166,69,0.2); background: var(--gold-dim); }
+
+  .article { max-width: 720px; padding: 4rem 0 6rem; }
+  .article h2 { font-family: 'Libre Baskerville', serif; font-size: 1.4rem; font-weight: 400; color: var(--text-hi); margin-top: 3rem; margin-bottom: 1rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .article h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .article p { font-family: 'Libre Baskerville', serif; font-size: 0.95rem; line-height: 1.9; color: var(--text); margin-bottom: 1.25rem; }
+  .article strong { color: var(--text-hi); font-weight: 600; }
+  .article em { color: var(--ember); font-style: italic; }
+  .article blockquote { border-left: 3px solid var(--blockquote-border); background: var(--blockquote-bg); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+  .article blockquote p { font-style: italic; color: var(--text-hi); margin-bottom: 0; font-size: 0.92rem; }
+  .article code { font-family: 'Iosevka', monospace; font-size: 0.88em; background: var(--code-bg); border: 1px solid var(--code-border); padding: 2px 6px; border-radius: 4px; color: var(--ember); }
+
+  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0; }
+  .comparison-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; }
+  .card-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; font-weight: 600; }
+  .card-label--ember { color: var(--ember); }
+  .card-label--gold { color: var(--gold); }
+  .card-desc { font-size: 0.82rem !important; line-height: 1.7 !important; margin-bottom: 0 !important; }
+
+  .code-block { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 8px; padding: 1.5rem 2rem; margin: 2rem 0; font-size: 0.82rem; line-height: 1.9; color: var(--text); }
+  .code-label { font-size: 0.68rem; color: var(--text-lo); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; display: block; }
+  .keyword { color: var(--ember); }
+  .comment { color: var(--text-lo); }
+  .string { color: var(--gold); }
+
+  .takeaway { background: var(--bg-card); border: 1px solid var(--ember-border); border-radius: 10px; padding: 2rem; margin: 2.5rem 0; }
+  .takeaway-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ember); font-weight: 600; margin-bottom: 1rem; }
+  .takeaway ul { list-style: none; padding: 0; }
+  .takeaway li { font-family: 'Libre Baskerville', serif; font-size: 0.88rem; color: var(--text); padding: 0.5rem 0; padding-left: 1.2rem; position: relative; line-height: 1.7; }
+  .takeaway li::before { content: '›'; position: absolute; left: 0; color: var(--ember); font-weight: 700; }
+
+  .article-footer { border-top: 1px solid var(--border); padding-top: 2.5rem; margin-top: 3rem; }
+  .article-footer-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1rem; }
+  .resource-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .original-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-hi); padding: 0.65rem 1.1rem; border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s; text-decoration: none; }
+  .original-link:hover { border-color: var(--ember-border); color: var(--ember); }
+  .original-link--sap { color: var(--gold); }
+  .original-link--gh { color: var(--ash); }
+
+  .more-posts { padding: 4rem 0; border-top: 1px solid var(--border); }
+  .more-posts-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1.5rem; }
+  .more-row { display: grid; grid-template-columns: 90px 1fr auto; gap: 1.5rem; align-items: baseline; padding: 1.25rem 0; border-top: 1px solid var(--border); cursor: pointer; transition: all 0.2s; text-decoration: none; }
+  .more-row:hover { padding-left: 0.75rem; }
+  .more-row:hover .more-title { color: var(--ember); }
+  .more-date { font-size: 0.72rem; color: var(--text-lo); font-variant-numeric: tabular-nums; }
+  .more-title { font-size: 0.85rem; color: var(--text-hi); transition: color 0.2s; }
+  .more-src { font-size: 0.65rem; color: var(--text-lo); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  @media (max-width: 768px) { .comparison { grid-template-columns: 1fr; } .more-row { grid-template-columns: 1fr; gap: 0.3rem; } .post-hero { padding: 8rem 0 3rem; } .resource-links { flex-direction: column; } }
+</style>

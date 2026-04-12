@@ -1,0 +1,37 @@
+---
+---
+
+<script is:inline>
+  // Apply saved theme immediately (avoid flash)
+  (function() {
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
+</script>
+
+<script>
+  function setupThemeToggle() {
+    const btn = document.querySelector('.theme-sw');
+    if (!btn) return;
+
+    const updateIcon = () => {
+      const icon = btn.querySelector('.ti');
+      if (!icon) return;
+      const current = document.documentElement.getAttribute('data-theme');
+      icon.innerHTML = current === 'dark' ? '\u2604' : '\u263D';
+    };
+
+    updateIcon();
+
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateIcon();
+    });
+  }
+
+  setupThemeToggle();
+  document.addEventListener('astro:after-swap', setupThemeToggle);
+</script>

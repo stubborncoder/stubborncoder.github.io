@@ -1,0 +1,59 @@
+---
+interface Props {
+  activeLink?: string;
+}
+
+const { activeLink } = Astro.props;
+---
+
+<div class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><span class="prefix">~/</span>stubborncoder</a>
+    <div class="nav-right">
+      <a href="/#writing" class:list={[{ active: activeLink === 'writing' }]}>Writing</a>
+      <a href="/#projects" class:list={[{ active: activeLink === 'projects' }]}>Projects</a>
+      <a href="https://linkedin.com/in/daviddiaztrapero" target="_blank">LinkedIn</a>
+      <button class="theme-sw" aria-label="Toggle theme"><span class="ti">&#9788;</span></button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: var(--bg); transition: all var(--ease);
+  }
+
+  .nav-inner {
+    max-width: 1020px; margin: 0 auto; padding: 0 2rem; height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-weight: 600; font-size: 0.9rem; color: var(--text-hi);
+    letter-spacing: -0.02em; text-decoration: none;
+  }
+  .nav-logo:hover { color: var(--text-hi); }
+  .nav-logo .prefix { color: var(--ember); }
+
+  .nav-right { display: flex; align-items: center; gap: 2rem; }
+  .nav-right a {
+    color: var(--text-lo); font-size: 0.78rem;
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-right a:hover { color: var(--ember); }
+  .nav-right a.active { color: var(--ember); }
+
+  .theme-sw {
+    background: none; border: none; color: var(--text-lo);
+    font-family: inherit; font-size: 1rem; cursor: pointer;
+    padding: 4px; transition: color 0.2s; line-height: 1;
+  }
+  .theme-sw:hover { color: var(--ember); }
+
+  @media (max-width: 768px) {
+    .nav-right a { display: none; }
+    .nav-right .theme-sw { display: inline; }
+  }
+</style>

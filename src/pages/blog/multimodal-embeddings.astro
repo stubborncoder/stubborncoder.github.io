@@ -1,0 +1,427 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Multimodal Embeddings: One Model, One Vector Space — ~/stubborncoder"
+  description="How we built a unified search engine across photos, floor plans, and PDF specs using multimodal embeddings."
+  activeLink="writing"
+>
+
+<!-- Post Hero with blurred bg -->
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-overlay"></div>
+  <div class="post-hero-content wrap">
+    <a href="/#writing" class="post-back reveal">&#8592; Back to writing</a>
+
+    <div class="post-meta-top reveal">
+      <span>April 2026</span>
+      <span>&middot;</span>
+      <span>8 min read</span>
+      <span class="source-badge">LinkedIn</span>
+    </div>
+
+    <h1 class="reveal">Multimodal Embeddings:<br>One Model, One <span class="em">Vector Space</span> for Everything</h1>
+
+    <p class="post-subtitle reveal">
+      How we built a unified search engine across photos, floor plans, and PDF specs
+      for an architecture studio — and what it taught me about the future of RAG.
+    </p>
+
+    <div class="post-tags-row reveal">
+      <span class="post-tag post-tag--ember">Multimodal AI</span>
+      <span class="post-tag post-tag--gold">Vector Search</span>
+      <span class="post-tag">RAG</span>
+      <span class="post-tag">LLM</span>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <article class="article">
+
+    <h2 class="reveal">The problem with text-only RAG</h2>
+
+    <p class="reveal">
+      If you've built a RAG pipeline, you know the drill. You take your documents, extract the text
+      (OCR if you're unlucky, Docling if you're sophisticated), chunk it, embed it, store the vectors,
+      and at query time you retrieve the relevant chunks and feed them to your LLM.
+    </p>
+
+    <p class="reveal">
+      It works. Until it doesn't.
+    </p>
+
+    <p class="reveal">
+      A client — an architecture studio — came to us with a problem that broke this entire
+      model. They had <strong>thousands of photos</strong> of completed projects, <strong>floor plans</strong> in various
+      formats, <strong>PDF specifications</strong> with complex layouts, and they wanted to search across
+      <em>all of it</em> with natural language. "Show me open-plan kitchens with exposed brick
+      from projects in Barcelona."
+    </p>
+
+    <p class="reveal">
+      Try doing that with text extraction and chunking. You'll lose the visual information that
+      makes the query meaningful in the first place.
+    </p>
+
+    <h2 class="reveal">Enter multimodal embeddings</h2>
+
+    <blockquote class="reveal">
+      <p>One model, one vector space — for text, images, audio, video, and PDFs.</p>
+    </blockquote>
+
+    <p class="reveal">
+      Multimodal embedding models like <code>Voyage Multimodal 3</code> and <code>Cohere Embed v4</code>
+      can take any of these input types and project them into a shared vector space. That means a
+      photo of an exposed-brick kitchen and the text "exposed brick kitchen" end up <em>near each
+      other</em> in the embedding space.
+    </p>
+
+    <p class="reveal">
+      This changes the architecture fundamentally. Instead of building separate pipelines for
+      each modality, you get one corpus, one index, one query.
+    </p>
+
+    <h2 class="reveal">Two pipelines, compared</h2>
+
+    <div class="comparison reveal">
+      <div class="comparison-card">
+        <div class="card-label card-label--old">Text-based RAG</div>
+        <div class="flow-step"><span class="step-hl">PDF</span></div>
+        <div class="flow-step"><span class="flow-arrow">↓</span> Text extraction (OCR / Docling)</div>
+        <div class="flow-step"><span class="flow-arrow">↓</span> Chunking</div>
+        <div class="flow-step"><span class="flow-arrow">↓</span> Text embedding</div>
+        <div class="flow-step"><span class="flow-arrow">↓</span> Retrieve chunks</div>
+        <div class="flow-step"><span class="flow-arrow">↓</span> LLM generates answer</div>
+      </div>
+      <div class="comparison-card">
+        <div class="card-label card-label--new">Multimodal pipeline</div>
+        <div class="flow-step"><span class="step-hl">Text, PDF, Image, Audio, Video</span></div>
+        <div class="flow-step"><span class="flow-arrow">↓</span> Multimodal embedding</div>
+        <div class="flow-step"><span class="flow-arrow">↓</span> Unified vector index</div>
+        <div class="flow-step"><span class="flow-arrow">↓</span> Retrieve mixed results</div>
+        <div class="flow-step"><span class="flow-arrow">↓</span> LLM generates answer</div>
+        <div class="flow-step" style="color: var(--ember); font-size: 0.72rem; margin-top: 0.5rem;">fewer steps, richer results</div>
+      </div>
+    </div>
+
+    <h2 class="reveal">The nuances nobody talks about</h2>
+
+    <p class="reveal">
+      Before you rip out your existing RAG pipeline and go full multimodal, there are some
+      important nuances I learned the hard way during this project:
+    </p>
+
+    <h3 class="reveal">Generation still needs text</h3>
+
+    <p class="reveal">
+      Multimodal embeddings solve <em>retrieval</em>, not generation. When your LLM needs to
+      synthesize an answer, it still works with text. So you're not eliminating text processing
+      entirely — you're moving it downstream. The retrieval step becomes richer, but the
+      generation step still requires extracting text from whatever you retrieved.
+    </p>
+
+    <h3 class="reveal">Granularity is different</h3>
+
+    <p class="reveal">
+      Text-based RAG gives you chunk-level precision. You can retrieve the exact paragraph
+      that answers a question. Multimodal embeddings typically work at <strong>page level</strong>
+      or <strong>document level</strong>. For the architecture studio this was fine — they wanted
+      to find the right photo or the right page. But for a legal document where the answer lives
+      in a specific clause? You might still want text chunking.
+    </p>
+
+    <h3 class="reveal">Costs shift, they don't disappear</h3>
+
+    <p class="reveal">
+      You save on text extraction and chunking complexity. But multimodal embedding models
+      are more expensive per token than text-only models, and the vectors are often larger
+      (meaning more storage and slower retrieval at scale). The economics work differently,
+      not necessarily better.
+    </p>
+
+    <h2 class="reveal">When to use what</h2>
+
+    <p class="reveal">
+      After this project, my mental model is straightforward:
+    </p>
+
+    <div class="takeaway reveal">
+      <div class="takeaway-label">Key takeaways</div>
+      <ul>
+        <li><strong>Mixed media corpus</strong> (photos, PDFs, plans) — go multimodal. Text-only RAG literally can't see your images.</li>
+        <li><strong>Complex layouts</strong> (tables, diagrams, multi-column PDFs) — multimodal handles these better than OCR + chunking.</li>
+        <li><strong>Pure text documents</strong> with fine-grained Q&A needs — text-based RAG still wins on precision and cost.</li>
+        <li><strong>Hybrid approach</strong> — use multimodal for retrieval, then extract text from retrieved results for generation. Best of both worlds.</li>
+      </ul>
+    </div>
+
+    <h2 class="reveal">The bigger picture</h2>
+
+    <p class="reveal">
+      What excites me most isn't the technology itself — it's what it enables.
+      The architecture studio can now onboard a new designer and tell them:
+      "just search for what you need." No tagging, no folder structure, no
+      tribal knowledge about where things are stored.
+    </p>
+
+    <p class="reveal">
+      <em>Everything in one corpus. One index, one query.</em>
+    </p>
+
+    <p class="reveal">
+      That's a fundamentally different way of working with information. And it's
+      just the beginning — as these models improve, the line between "searching
+      your files" and "talking to your files" will keep blurring.
+    </p>
+
+    <!-- Article Footer -->
+    <div class="article-footer reveal">
+      <div class="article-footer-label">Originally published on</div>
+      <a href="https://www.linkedin.com/feed/update/urn:li:activity:7442484190996004865/" target="_blank" class="original-link">
+        Read on LinkedIn &#8594;
+      </a>
+    </div>
+
+  </article>
+
+  <!-- More posts -->
+  <section class="more-posts">
+    <div class="more-posts-title">More writing</div>
+
+    <div class="more-row">
+      <span class="more-date">2026.03</span>
+      <span class="more-title">Building AI Agents for SAP: Lessons from the Trenches</span>
+      <span class="more-src">LinkedIn</span>
+    </div>
+    <div class="more-row">
+      <span class="more-date">2026.02</span>
+      <span class="more-title">How I Automated AR Collections with Claude and RFC</span>
+      <span class="more-src">SAP Comm</span>
+    </div>
+    <div class="more-row">
+      <span class="more-date">2026.01</span>
+      <span class="more-title">The Case for AI in Financial Close Processes</span>
+      <span class="more-src">LinkedIn</span>
+    </div>
+  </section>
+
+</main>
+
+</BaseLayout>
+
+<style>
+  /* ── Post Hero ── */
+  .post-hero {
+    position: relative;
+    padding: 10rem 0 4rem;
+    overflow: hidden;
+  }
+
+  .post-hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1920&q=80') center/cover no-repeat;
+    filter: blur(8px) saturate(0.3) brightness(0.25);
+    transform: scale(1.05);
+    transition: filter var(--ease);
+  }
+
+  :global([data-theme="light"]) .post-hero-bg {
+    filter: blur(8px) saturate(0.35) brightness(1.1);
+  }
+
+  .post-hero-overlay {
+    position: absolute; inset: 0;
+    background: var(--hero-overlay);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%);
+  }
+
+  .post-hero-content {
+    position: relative; z-index: 2; max-width: 720px;
+  }
+
+  .post-back {
+    font-size: 0.75rem; color: var(--text-lo);
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-bottom: 2rem; transition: color 0.2s; text-decoration: none;
+  }
+  .post-back:hover { color: var(--ember); }
+
+  .post-meta-top {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.5rem; font-size: 0.72rem; color: var(--text-lo);
+  }
+
+  .source-badge {
+    padding: 2px 8px; border-radius: 3px;
+    border: 1px solid var(--ember-border); color: var(--ember);
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+
+  .post-hero h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 400; line-height: 1.25;
+    color: var(--text-hi); letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-hero h1 .em { color: var(--ember); font-style: italic; }
+
+  .post-subtitle {
+    font-size: 1rem; color: var(--text);
+    max-width: 560px; line-height: 1.8;
+  }
+
+  .post-tags-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+  .post-tag {
+    font-size: 0.65rem; padding: 3px 8px; border-radius: 4px;
+    border: 1px solid var(--border); color: var(--text-lo);
+  }
+  .post-tag--ember { color: var(--ember); border-color: var(--ember-border); background: var(--ember-glow); }
+  .post-tag--gold { color: var(--gold); border-color: rgba(212,166,69,0.2); background: var(--gold-dim); }
+
+  /* ── Article Body ── */
+  .article { max-width: 720px; padding: 4rem 0 6rem; }
+
+  .article h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.4rem; font-weight: 400; color: var(--text-hi);
+    margin-top: 3rem; margin-bottom: 1rem;
+    padding-top: 2rem; border-top: 1px solid var(--border);
+  }
+
+  .article h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+
+  .article h3 {
+    font-size: 1rem; font-weight: 600; color: var(--text-hi);
+    margin-top: 2rem; margin-bottom: 0.75rem;
+  }
+
+  .article p {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.95rem; line-height: 1.9; color: var(--text);
+    margin-bottom: 1.25rem;
+  }
+
+  .article strong { color: var(--text-hi); font-weight: 600; }
+  .article em { color: var(--ember); font-style: italic; }
+
+  .article blockquote {
+    border-left: 3px solid var(--blockquote-border);
+    background: var(--blockquote-bg);
+    padding: 1.25rem 1.5rem; margin: 2rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .article blockquote p {
+    font-style: italic; color: var(--text-hi); margin-bottom: 0; font-size: 0.92rem;
+  }
+
+  .article code {
+    font-family: 'Iosevka', monospace; font-size: 0.88em;
+    background: var(--code-bg); border: 1px solid var(--code-border);
+    padding: 2px 6px; border-radius: 4px; color: var(--ember);
+  }
+
+  /* Comparison cards */
+  .comparison {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin: 2rem 0;
+  }
+
+  .comparison-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.5rem;
+  }
+
+  .card-label {
+    font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 1rem; font-weight: 600;
+  }
+  .card-label--old { color: var(--text-lo); }
+  .card-label--new { color: var(--ember); }
+
+  .flow-step {
+    font-size: 0.78rem; color: var(--text);
+    padding: 0.4rem 0; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .flow-arrow { color: var(--text-lo); font-size: 0.65rem; }
+  .step-hl { color: var(--text-hi); font-weight: 500; }
+
+  /* Takeaway box */
+  .takeaway {
+    background: var(--bg-card); border: 1px solid var(--ember-border);
+    border-radius: 10px; padding: 2rem; margin: 2.5rem 0;
+  }
+
+  .takeaway-label {
+    font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--ember);
+    font-weight: 600; margin-bottom: 1rem;
+  }
+
+  .takeaway ul { list-style: none; padding: 0; }
+
+  .takeaway li {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.88rem; color: var(--text);
+    padding: 0.5rem 0; padding-left: 1.2rem;
+    position: relative; line-height: 1.7;
+  }
+
+  .takeaway li::before {
+    content: '›'; position: absolute; left: 0;
+    color: var(--ember); font-weight: 700;
+  }
+
+  /* Article footer */
+  .article-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 2.5rem; margin-top: 3rem;
+  }
+
+  .article-footer-label {
+    font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1rem;
+  }
+
+  .original-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.85rem; color: var(--text-hi);
+    padding: 0.75rem 1.25rem; border: 1px solid var(--border);
+    border-radius: 8px; transition: all 0.2s; text-decoration: none;
+  }
+  .original-link:hover { border-color: var(--ember-border); color: var(--ember); }
+
+  /* More posts */
+  .more-posts { padding: 4rem 0; border-top: 1px solid var(--border); }
+
+  .more-posts-title {
+    font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1.5rem;
+  }
+
+  .more-row {
+    display: grid; grid-template-columns: 90px 1fr auto;
+    gap: 1.5rem; align-items: baseline;
+    padding: 1.25rem 0; border-top: 1px solid var(--border);
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+  }
+  .more-row:hover { padding-left: 0.75rem; }
+  .more-row:hover .more-title { color: var(--ember); }
+
+  .more-date { font-size: 0.72rem; color: var(--text-lo); font-variant-numeric: tabular-nums; }
+  .more-title { font-size: 0.85rem; color: var(--text-hi); transition: color 0.2s; }
+  .more-src { font-size: 0.65rem; color: var(--text-lo); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  @media (max-width: 768px) {
+    .comparison { grid-template-columns: 1fr; }
+    .more-row { grid-template-columns: 1fr; gap: 0.3rem; }
+    .post-hero { padding: 8rem 0 3rem; }
+  }
+</style>

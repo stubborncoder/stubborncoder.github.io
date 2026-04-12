@@ -1,0 +1,242 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Semantic Caching for SAP HANA Cloud — ~/stubborncoder"
+  description="langchain-hana-cache: 21x faster responses with semantic caching on SAP HANA Cloud."
+  activeLink="writing"
+>
+
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-overlay"></div>
+  <div class="post-hero-content wrap">
+    <a href="/#writing" class="post-back reveal">&#8592; Back to writing</a>
+
+    <div class="post-meta-top reveal">
+      <span>March 2026</span>
+      <span>&middot;</span>
+      <span>7 min read</span>
+      <span class="source-badge">LinkedIn</span>
+      <span class="source-badge source-badge--sap">SAP Community</span>
+    </div>
+
+    <h1 class="reveal">Semantic Caching<br>for <span class="em">SAP HANA Cloud</span></h1>
+
+    <p class="post-subtitle reveal">
+      How langchain-hana-cache cuts LLM latency by 96% and eliminates redundant
+      API calls — using the vector engine you already have.
+    </p>
+
+    <div class="post-tags-row reveal">
+      <span class="post-tag post-tag--ember">LangChain</span>
+      <span class="post-tag post-tag--gold">SAP HANA</span>
+      <span class="post-tag">Open Source</span>
+      <span class="post-tag">LLM</span>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <article class="article">
+
+    <h2 class="reveal">The problem</h2>
+
+    <p class="reveal">
+      If you're building AI agents, you've probably noticed something: users ask the same
+      questions over and over, just worded differently. "How do I reset my password?",
+      "I need help with my password", "password reset process" — they all want the same answer.
+    </p>
+
+    <p class="reveal">
+      But every single one of those triggers a full LLM API call. That's tokens spent,
+      latency added, and money burned for something you've already answered.
+    </p>
+
+    <p class="reveal">
+      This is one of those problems that seems small until you look at the numbers in production.
+      A customer service agent handling hundreds of conversations a day, a document Q&A system
+      where people keep asking about the same regulations, an internal help desk where the top
+      20 questions cover 80% of the traffic. <strong>Every repeated question is a wasted and
+      expensive API call.</strong>
+    </p>
+
+    <h2 class="reveal">Semantic caching changes this</h2>
+
+    <p class="reveal">
+      Instead of matching prompts word by word, semantic caching understands that
+      "how do I reset my password" and "I forgot my password, help" <em>mean the same thing</em>.
+      When a similar enough question comes in, it returns the answer you already have, instantly.
+      No API call, no tokens, no waiting.
+    </p>
+
+    <blockquote class="reveal">
+      <p>Store the response once, serve it forever — or until you decide it should expire.</p>
+    </blockquote>
+
+    <h2 class="reveal">langchain-hana-cache</h2>
+
+    <p class="reveal">
+      I built and released <code>langchain-hana-cache</code>, an open-source package that brings
+      semantic caching to SAP HANA Cloud. It uses the same vector similarity engine that already
+      powers RAG retrieval in HANA, but instead of matching documents, it matches prompts.
+    </p>
+
+    <div class="code-block reveal">
+      <span class="code-label">Installation</span>
+      <span class="keyword">pip install</span> langchain-hana-cache
+    </div>
+
+    <p class="reveal">
+      It integrates with LangChain in two lines of code. The cache table lives in the same
+      HANA instance where your business data already sits — no additional infrastructure to manage,
+      no Redis to set up, no separate vector database. If you're already on BTP with HANA Cloud,
+      you're ready to go.
+    </p>
+
+    <h2 class="reveal">The results</h2>
+
+    <div class="stats-row reveal">
+      <div class="stat-card">
+        <div class="stat-number">21x</div>
+        <div class="stat-label">Faster on cache hits</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">96%</div>
+        <div class="stat-label">Latency reduction</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Tokens on cache hit</div>
+      </div>
+    </div>
+
+    <p class="reveal">
+      That's going from 8 seconds down to under half a second. And since the LLM never
+      gets called on a cache hit, you consume zero tokens. For high-traffic agents on
+      expensive models like Claude Opus or GPT-5, the savings add up fast.
+    </p>
+
+    <div class="takeaway reveal">
+      <div class="takeaway-label">Key points</div>
+      <ul>
+        <li>Uses HANA's vector similarity engine — the same one powering your RAG retrieval</li>
+        <li>Two lines of LangChain integration — drop-in replacement for existing cache</li>
+        <li>No extra infrastructure — lives in your existing HANA instance</li>
+        <li>Configurable similarity threshold and TTL expiration</li>
+        <li>MIT licensed, PRs welcome</li>
+      </ul>
+    </div>
+
+    <div class="article-footer reveal">
+      <div class="article-footer-label">Resources</div>
+      <div class="resource-links">
+        <a href="https://www.linkedin.com/feed/update/urn:li:activity:7437106880847552512/" target="_blank" class="original-link">Read on LinkedIn &#8594;</a>
+        <a href="https://community.sap.com/t5/artificial-intelligence-blogs-posts/langchain-hana-cache/ba-p/14345633" target="_blank" class="original-link original-link--sap">SAP Community &#8594;</a>
+        <a href="https://github.com/stubborncoder/langchain-hana-cache" target="_blank" class="original-link original-link--gh">GitHub &#8594;</a>
+      </div>
+    </div>
+
+  </article>
+
+  <section class="more-posts">
+    <div class="more-posts-title">More writing</div>
+    <a href="/blog/hybrid-retrieval-hana" class="more-row">
+      <span class="more-date">2026.03</span>
+      <span class="more-title">Hybrid BM25 + Vector Retrieval for SAP HANA Cloud</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+    <a href="/blog/langgraph-checkpoint-hana" class="more-row">
+      <span class="more-date">2026.02</span>
+      <span class="more-title">LangGraph Checkpointer for SAP HANA Cloud</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+    <a href="/blog/multimodal-embeddings" class="more-row">
+      <span class="more-date">2026.04</span>
+      <span class="more-title">Multimodal Embeddings: One Model, One Vector Space</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+  </section>
+</main>
+
+</BaseLayout>
+
+<style>
+  .post-hero { position: relative; padding: 10rem 0 4rem; overflow: hidden; }
+  .post-hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80') center/cover no-repeat;
+    filter: blur(8px) saturate(0.3) brightness(0.25); transform: scale(1.05); transition: filter var(--ease);
+  }
+  :global([data-theme="light"]) .post-hero-bg { filter: blur(8px) saturate(0.35) brightness(1.1); }
+  .post-hero-overlay {
+    position: absolute; inset: 0; background: var(--hero-overlay);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%);
+  }
+  .post-hero-content { position: relative; z-index: 2; max-width: 720px; }
+  .post-back { font-size: 0.75rem; color: var(--text-lo); display: inline-flex; align-items: center; gap: 6px; margin-bottom: 2rem; transition: color 0.2s; text-decoration: none; }
+  .post-back:hover { color: var(--ember); }
+  .post-meta-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.72rem; color: var(--text-lo); flex-wrap: wrap; }
+  .source-badge { padding: 2px 8px; border-radius: 3px; border: 1px solid var(--ember-border); color: var(--ember); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .source-badge--sap { color: var(--gold); border-color: rgba(212,166,69,0.2); }
+  .post-hero h1 { font-family: 'Libre Baskerville', serif; font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 400; line-height: 1.25; color: var(--text-hi); letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .post-hero h1 .em { color: var(--ember); font-style: italic; }
+  .post-subtitle { font-size: 1rem; color: var(--text); max-width: 560px; line-height: 1.8; }
+  .post-tags-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .post-tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--text-lo); }
+  .post-tag--ember { color: var(--ember); border-color: var(--ember-border); background: var(--ember-glow); }
+  .post-tag--gold { color: var(--gold); border-color: rgba(212,166,69,0.2); background: var(--gold-dim); }
+
+  .article { max-width: 720px; padding: 4rem 0 6rem; }
+  .article h2 { font-family: 'Libre Baskerville', serif; font-size: 1.4rem; font-weight: 400; color: var(--text-hi); margin-top: 3rem; margin-bottom: 1rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .article h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .article p { font-family: 'Libre Baskerville', serif; font-size: 0.95rem; line-height: 1.9; color: var(--text); margin-bottom: 1.25rem; }
+  .article strong { color: var(--text-hi); font-weight: 600; }
+  .article em { color: var(--ember); font-style: italic; }
+  .article blockquote { border-left: 3px solid var(--blockquote-border); background: var(--blockquote-bg); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+  .article blockquote p { font-style: italic; color: var(--text-hi); margin-bottom: 0; font-size: 0.92rem; }
+  .article code { font-family: 'Iosevka', monospace; font-size: 0.88em; background: var(--code-bg); border: 1px solid var(--code-border); padding: 2px 6px; border-radius: 4px; color: var(--ember); }
+
+  .code-block { background: var(--code-bg); border: 1px solid var(--code-border); border-radius: 8px; padding: 1.5rem 2rem; margin: 2rem 0; font-size: 0.82rem; line-height: 1.9; color: var(--text); }
+  .code-label { font-size: 0.68rem; color: var(--text-lo); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; display: block; }
+  .keyword { color: var(--ember); }
+
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2rem 0; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; text-align: center; }
+  .stat-number { font-family: 'Libre Baskerville', serif; font-size: 2rem; font-weight: 700; color: var(--ember); margin-bottom: 0.3rem; }
+  .stat-label { font-size: 0.72rem; color: var(--text-lo); }
+
+  .takeaway { background: var(--bg-card); border: 1px solid var(--ember-border); border-radius: 10px; padding: 2rem; margin: 2.5rem 0; }
+  .takeaway-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ember); font-weight: 600; margin-bottom: 1rem; }
+  .takeaway ul { list-style: none; padding: 0; }
+  .takeaway li { font-family: 'Libre Baskerville', serif; font-size: 0.88rem; color: var(--text); padding: 0.5rem 0; padding-left: 1.2rem; position: relative; line-height: 1.7; }
+  .takeaway li::before { content: '›'; position: absolute; left: 0; color: var(--ember); font-weight: 700; }
+
+  .article-footer { border-top: 1px solid var(--border); padding-top: 2.5rem; margin-top: 3rem; }
+  .article-footer-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1rem; }
+  .resource-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .original-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-hi); padding: 0.65rem 1.1rem; border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s; text-decoration: none; }
+  .original-link:hover { border-color: var(--ember-border); color: var(--ember); }
+  .original-link--sap { color: var(--gold); }
+  .original-link--sap:hover { border-color: rgba(212,166,69,0.3); color: var(--gold); }
+  .original-link--gh { color: var(--ash); }
+  .original-link--gh:hover { border-color: rgba(122,144,144,0.3); color: var(--ash); }
+
+  .more-posts { padding: 4rem 0; border-top: 1px solid var(--border); }
+  .more-posts-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1.5rem; }
+  .more-row { display: grid; grid-template-columns: 90px 1fr auto; gap: 1.5rem; align-items: baseline; padding: 1.25rem 0; border-top: 1px solid var(--border); cursor: pointer; transition: all 0.2s; text-decoration: none; }
+  .more-row:hover { padding-left: 0.75rem; }
+  .more-row:hover .more-title { color: var(--ember); }
+  .more-date { font-size: 0.72rem; color: var(--text-lo); font-variant-numeric: tabular-nums; }
+  .more-title { font-size: 0.85rem; color: var(--text-hi); transition: color 0.2s; }
+  .more-src { font-size: 0.65rem; color: var(--text-lo); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  @media (max-width: 768px) {
+    .stats-row { grid-template-columns: 1fr; }
+    .more-row { grid-template-columns: 1fr; gap: 0.3rem; }
+    .post-hero { padding: 8rem 0 3rem; }
+    .resource-links { flex-direction: column; }
+  }
+</style>

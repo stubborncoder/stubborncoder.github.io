@@ -1,0 +1,381 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="~/stubborncoder — AI Engineer">
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content wrap">
+    <div class="hero-grid">
+      <div>
+        <h1 class="reveal">
+          AI engineer<br>
+          with a <span class="em">finance</span><br>
+          <span class="gold">accent</span>
+        </h1>
+        <p class="hero-body reveal">
+          I'm David Díaz — freelance AI engineer building intelligent
+          agents and multimodal AI systems. My background in SAP Finance gives
+          me an edge where enterprise complexity meets machine intelligence.
+        </p>
+        <div class="hero-links reveal">
+          <a href="#writing">Read writing &#8594;</a>
+          <a href="#projects">View projects &#8594;</a>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <div class="terminal-dot"></div>
+            <div class="terminal-dot"></div>
+            <div class="terminal-dot"></div>
+            <span class="terminal-title">~/stubborncoder — zsh</span>
+          </div>
+          <div class="terminal-body">
+            <div class="prompt"><span class="typing">whoami</span></div>
+            <div class="output">
+              David Díaz<br>
+              <span class="hl">AI Engineer</span> · <span class="gold">Freelance</span>
+            </div>
+            <br>
+            <div class="prompt"><span class="typing">cat stack.md</span></div>
+            <div class="output">
+              <span class="hl">Agents</span> · <span class="gold">RAG</span> · <span class="ash">Multimodal AI</span><br>
+              Claude API · LangChain · Python<br>
+              SAP RFC/BAPI · S/4HANA · ABAP
+            </div>
+            <br>
+            <div class="prompt"><span class="typing">ls projects/</span></div>
+            <div class="output">
+              <span class="hl">ar-collections-agent/</span><br>
+              <span class="gold">vdocs/</span><br>
+              <span class="ash">langchain-hana-*/</span>
+            </div>
+            <br>
+            <div class="prompt"><span class="typing">_</span><span class="cursor"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+
+  <!-- Writing (first) -->
+  <section class="section" id="writing" style="border-top: 1px solid var(--border);">
+    <div class="section-head reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Writing</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <a href="/blog/multimodal-embeddings" class="blog-row reveal">
+      <span class="br-date">2026.04</span>
+      <span class="br-title">Multimodal Embeddings: One Model, One Vector Space for Everything</span>
+      <span class="br-src">LinkedIn</span>
+    </a>
+    <a href="/blog/semantic-caching-hana" class="blog-row reveal">
+      <span class="br-date">2026.03</span>
+      <span class="br-title">Semantic Caching for SAP HANA Cloud: 21x Faster, Zero Tokens</span>
+      <span class="br-src">LinkedIn</span>
+    </a>
+    <a href="/blog/hybrid-retrieval-hana" class="blog-row reveal">
+      <span class="br-date">2026.03</span>
+      <span class="br-title">Hybrid BM25 + Vector Retrieval for SAP HANA Cloud</span>
+      <span class="br-src">LinkedIn</span>
+    </a>
+    <a href="/blog/langgraph-checkpoint-hana" class="blog-row reveal">
+      <span class="br-date">2026.02</span>
+      <span class="br-title">LangGraph Checkpointer for SAP HANA Cloud</span>
+      <span class="br-src">LinkedIn</span>
+    </a>
+  </section>
+
+  <!-- Projects (second) -->
+  <section class="section" id="projects" style="border-top: 1px solid var(--border);">
+    <div class="section-head reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="project-item reveal">
+      <div>
+        <h3>AR Collections Agent</h3>
+        <p>
+          Autonomous AI agent for accounts receivable — prioritizes overdue
+          invoices, drafts personalized follow-ups, integrates with SAP FICO
+          via RFC for real-time balance data.
+        </p>
+        <div class="project-tags">
+          <span class="tag tag--ember">Claude API</span>
+          <span class="tag tag--gold">SAP RFC</span>
+          <span class="tag">Python</span>
+        </div>
+      </div>
+      <div class="project-side">
+        <span>2026</span>
+        <span class="live-badge" style="color: var(--ember);"><span class="live-dot"></span> Live</span>
+      </div>
+    </div>
+
+    <div class="project-item reveal">
+      <div>
+        <h3>vDocs</h3>
+        <p>
+          AI-powered documentation platform — transforms videos into structured
+          documents, manages content lifecycle, and exports to PDF and Word.
+          Handles the full pipeline from raw recording to polished deliverable.
+        </p>
+        <div class="project-tags">
+          <span class="tag tag--ember">AI</span>
+          <span class="tag tag--gold">Documentation</span>
+          <span class="tag">Video Processing</span>
+        </div>
+      </div>
+      <div class="project-side">
+        <span>2026</span>
+        <a href="https://vdocs.ai/" target="_blank" style="font-size: 0.68rem; color: var(--ember);">vdocs.ai &#8594;</a>
+      </div>
+    </div>
+
+    <div class="project-item reveal">
+      <div>
+        <h3>Multimodal Search Engine</h3>
+        <p>
+          Unified retrieval across photos, floor plans, and PDF specs for an
+          architecture studio. One embedding model, one vector space — text,
+          images, and documents searchable with natural language.
+        </p>
+        <div class="project-tags">
+          <span class="tag tag--ember">Multimodal AI</span>
+          <span class="tag tag--gold">Vector Search</span>
+          <span class="tag">RAG</span>
+        </div>
+      </div>
+      <div class="project-side">
+        <span>2026</span>
+        <span class="live-badge" style="color: var(--ember);"><span class="live-dot"></span> Live</span>
+      </div>
+    </div>
+
+    <div class="project-item reveal">
+      <div>
+        <h3>langchain-hana-cache</h3>
+        <p>
+          Semantic caching for SAP HANA Cloud. 21x faster responses, 96% latency
+          reduction. Uses HANA's vector engine to match similar prompts and serve
+          cached answers — zero tokens on cache hits.
+        </p>
+        <div class="project-tags">
+          <span class="tag tag--ember">LangChain</span>
+          <span class="tag tag--gold">SAP HANA</span>
+          <span class="tag tag--ash">Open Source</span>
+        </div>
+      </div>
+      <div class="project-side">
+        <span>2026</span>
+        <a href="https://github.com/stubborncoder/langchain-hana-cache" target="_blank" style="font-size: 0.68rem; color: var(--ash);">GitHub &#8594;</a>
+      </div>
+    </div>
+
+    <div class="project-item reveal">
+      <div>
+        <h3>langchain-hana-retriever</h3>
+        <p>
+          Hybrid BM25 + vector retrieval for SAP HANA Cloud. Keyword precision
+          meets semantic understanding with Reciprocal Rank Fusion reranking.
+        </p>
+        <div class="project-tags">
+          <span class="tag tag--ember">LangChain</span>
+          <span class="tag tag--gold">SAP HANA</span>
+          <span class="tag tag--ash">Open Source</span>
+        </div>
+      </div>
+      <div class="project-side">
+        <span>2026</span>
+        <a href="https://github.com/stubborncoder/langchain-hana-retriever" target="_blank" style="font-size: 0.68rem; color: var(--ash);">GitHub &#8594;</a>
+      </div>
+    </div>
+
+    <div class="project-item reveal">
+      <div>
+        <h3>langgraph-checkpoint-hana</h3>
+        <p>
+          LangGraph checkpointer for SAP HANA Cloud. Persistent memory, fault
+          recovery, and time travel for your agents — in the HANA instance you
+          already have.
+        </p>
+        <div class="project-tags">
+          <span class="tag tag--ember">LangGraph</span>
+          <span class="tag tag--gold">SAP HANA</span>
+          <span class="tag tag--ash">Open Source</span>
+        </div>
+      </div>
+      <div class="project-side">
+        <span>2026</span>
+        <a href="https://github.com/stubborncoder/langgraph-checkpoint-hana" target="_blank" style="font-size: 0.68rem; color: var(--ash);">GitHub &#8594;</a>
+      </div>
+    </div>
+
+
+  </section>
+
+</main>
+
+</BaseLayout>
+
+<style>
+  /* ── Hero ── */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: flex-end;
+    overflow: hidden; padding-bottom: 5rem;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1920&q=80') center/cover no-repeat;
+    filter: blur(6px) saturate(0.3) brightness(0.22);
+    transform: scale(1.04);
+    transition: filter var(--ease);
+  }
+
+  :global([data-theme="light"]) .hero-bg {
+    filter: blur(6px) saturate(0.35) brightness(1.1);
+  }
+
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: var(--hero-overlay);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,1) 60%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,1) 60%);
+  }
+
+  .hero-content { position: relative; z-index: 2; width: 100%; padding-top: 6rem; }
+
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 420px;
+    gap: 4rem; align-items: end;
+  }
+
+  .hero h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(2.5rem, 5.5vw, 4rem);
+    font-weight: 400; line-height: 1.15;
+    color: var(--text-hi); letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 .em { color: var(--ember); font-style: italic; }
+  .hero h1 .gold { color: var(--gold); }
+
+  .hero-body {
+    font-size: 0.88rem; color: var(--text);
+    max-width: 440px; margin-bottom: 2.5rem; line-height: 1.9;
+  }
+
+  .hero-links { display: flex; gap: 1.5rem; font-size: 0.82rem; }
+  .hero-links a {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text-lo); transition: color 0.2s;
+  }
+  .hero-links a:hover { color: var(--ember); }
+
+  /* ── Terminal ── */
+  .terminal {
+    background: var(--term-bg); border: 1px solid var(--border);
+    border-radius: 12px; box-shadow: 0 8px 60px rgba(0,0,0,0.35);
+    overflow: hidden; transition: all var(--ease);
+  }
+
+  .terminal-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 18px; border-bottom: 1px solid var(--border);
+    background: var(--term-bar);
+  }
+
+  .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .terminal-dot:nth-child(1) { background: #ff5f57; }
+  .terminal-dot:nth-child(2) { background: #ffbd2e; }
+  .terminal-dot:nth-child(3) { background: #28c840; }
+  .terminal-title { margin-left: auto; font-size: 0.72rem; color: var(--text-lo); }
+
+  .terminal-body { padding: 1.75rem 2rem; font-size: 0.88rem; line-height: 2.1; }
+  .prompt::before { content: '❯ '; color: var(--ember); font-weight: 600; }
+  .typing { color: var(--text-hi); font-weight: 500; }
+  .cursor {
+    display: inline-block; width: 9px; height: 1.15em;
+    background: var(--ember); margin-left: 2px;
+    vertical-align: text-bottom; animation: blink 1s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .output { color: var(--text); font-size: 0.82rem; }
+  .output .hl { color: var(--ember); }
+  .output .gold { color: var(--gold); }
+  .output .ash { color: var(--ash); }
+
+  /* ── Blog rows ── */
+  .blog-row {
+    display: grid; grid-template-columns: 90px 1fr auto;
+    gap: 1.5rem; align-items: baseline;
+    padding: 1.5rem 0; border-top: 1px solid var(--border);
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+  }
+  .blog-row:hover { padding-left: 0.75rem; }
+  .blog-row:hover .br-title { color: var(--ember); }
+  .br-date { font-size: 0.72rem; color: var(--text-lo); font-variant-numeric: tabular-nums; }
+  .br-title { font-size: 0.88rem; color: var(--text-hi); font-weight: 400; transition: color 0.2s; }
+  .br-src { font-size: 0.65rem; color: var(--text-lo); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* ── Projects ── */
+  .project-item {
+    border-top: 1px solid var(--border); padding: 2.5rem 0;
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 2rem; cursor: pointer; transition: all 0.25s;
+  }
+  .project-item:hover { padding-left: 1rem; }
+  .project-item:hover h3 { color: var(--ember); }
+
+  .project-item h3 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.3rem; font-weight: 400; color: var(--text-hi);
+    margin-bottom: 0.5rem; transition: color 0.2s;
+  }
+
+  .project-item p { font-size: 0.82rem; color: var(--text); max-width: 520px; margin-bottom: 1rem; }
+  .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+  .project-side {
+    text-align: right; font-size: 0.72rem; color: var(--text-lo);
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+
+  .live-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 0.68rem; justify-content: flex-end;
+  }
+
+  .live-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--ember); animation: ember-pulse 2s infinite;
+  }
+
+  @keyframes ember-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--ember); }
+    50% { opacity: 0.4; box-shadow: none; }
+  }
+
+  @media (max-width: 768px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero { align-items: center; padding-bottom: 3rem; min-height: auto; padding-top: 5rem; }
+    .project-item { grid-template-columns: 1fr; }
+    .blog-row { grid-template-columns: 1fr; gap: 0.3rem; }
+    .terminal-body { padding: 1.2rem 1.5rem; font-size: 0.82rem; }
+  }
+</style>
