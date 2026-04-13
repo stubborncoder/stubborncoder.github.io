@@ -1,0 +1,4 @@
+- [User profile](user_profile.md) — David Díaz, AI Engineer at Inetum, SAP Finance background
+- [Design choice](feedback_design.md) — Terminal Ember palette chosen for stubborncoder.github.io
+- [Workflow](feedback_workflow.md) — Always let David review blog posts before committing/pushing
+- [Blog tone](feedback_blog_tone.md) — Write for CFOs who know finance; show value, don't explain basics
