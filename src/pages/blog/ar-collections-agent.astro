@@ -1,0 +1,353 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="An AI Agent That Never Forgets an Overdue Invoice — ~/stubborncoder"
+  description="How I built an autonomous AI agent that monitors, assesses, and acts on overdue invoices 24/7 — without ever touching a cloud API."
+  activeLink="writing"
+>
+
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-overlay"></div>
+  <div class="post-hero-content wrap">
+    <a href="/#writing" class="post-back reveal">&#8592; Back to writing</a>
+
+    <div class="post-meta-top reveal">
+      <span>April 2026</span>
+      <span>&middot;</span>
+      <span>10 min read</span>
+    </div>
+
+    <h1 class="reveal">An AI Agent That<br>Never Forgets an <span class="em">Overdue Invoice</span></h1>
+
+    <p class="post-subtitle reveal">
+      How I built an autonomous system that monitors accounts receivable around the clock,
+      makes collection decisions on its own, and keeps every action traceable — all running
+      on local hardware where sensitive financial data never leaves the network.
+    </p>
+
+    <div class="post-tags-row reveal">
+      <span class="post-tag post-tag--ember">AI Agents</span>
+      <span class="post-tag post-tag--gold">AR Collections</span>
+      <span class="post-tag">Finance</span>
+      <span class="post-tag">Autonomous</span>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <article class="article">
+
+    <h2 class="reveal">Why AR collections is the perfect problem</h2>
+
+    <p class="reveal">
+      If you've worked in finance, you know the rhythm. Every morning someone opens a spreadsheet,
+      sorts by days overdue, decides who to chase, drafts an email, maybe makes a call, logs the
+      action, moves on. Tomorrow they do it again. And the day after that.
+    </p>
+
+    <p class="reveal">
+      It's important work — overdue receivables directly impact cash flow — but it follows a pattern
+      that's almost mechanical. Scan the accounts. Assess the risk. Take an action based on policy.
+      Record what you did. Repeat.
+    </p>
+
+    <p class="reveal">
+      That's exactly the kind of work where an autonomous agent can thrive. Not replacing the finance
+      team's judgment, but handling the <em>repetitive monitoring and initial response</em> so they
+      can focus on the exceptions that actually need human attention.
+    </p>
+
+    <p class="reveal">
+      So I built one.
+    </p>
+
+    <h2 class="reveal">The agent loop: cycles, not conversations</h2>
+
+    <p class="reveal">
+      Most AI tools are reactive — you ask a question, you get an answer. The Collections Agent is
+      different. It runs in <strong>continuous timed cycles</strong>, like a heartbeat. Every cycle
+      it wakes up, scans all accounts, assesses what changed, decides what to do, acts, then goes
+      back to sleep until the next cycle.
+    </p>
+
+    <blockquote class="reveal">
+      <p>Scan → Detect changes → Assess each customer → Execute actions → Summarize → Wait → Repeat.</p>
+    </blockquote>
+
+    <p class="reveal">
+      This matters because collections isn't a one-time event. An invoice that was 5 days overdue
+      yesterday is 6 days overdue today. A customer who was low risk last week might have crossed
+      a threshold. The agent catches these shifts automatically because it never stops watching.
+    </p>
+
+    <p class="reveal">
+      Between cycles, the agent compares the current state of each account against the last time
+      it looked. If nothing changed for a customer — same invoices, same amounts, no payments —
+      it skips re-analysis and moves on. No wasted compute. But the moment a new invoice appears,
+      a payment comes in, or an amount crosses a threshold, the agent picks it up immediately.
+    </p>
+
+    <h2 class="reveal">Decisions, not just data</h2>
+
+    <p class="reveal">
+      Here's where it gets interesting. The agent doesn't just flag overdue invoices — it
+      <em>makes collection decisions</em> using structured reasoning.
+    </p>
+
+    <p class="reveal">
+      For each customer, the AI evaluates the full picture: how many days overdue, the total
+      amount at risk, the number of open invoices, the history of prior actions, and whether
+      any recent payments have been detected. Based on this, it assigns a risk level —
+      Critical, High, Medium, or Low — and decides what action to take.
+    </p>
+
+    <p class="reveal">
+      The default policy is straightforward:
+    </p>
+
+    <div class="policy-grid reveal">
+      <div class="policy-row">
+        <span class="policy-days">1–15 days</span>
+        <span class="policy-action">Monitor</span>
+        <span class="policy-desc">Track the account, no outreach yet</span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-days">15–30 days</span>
+        <span class="policy-action policy-action--amber">Send email</span>
+        <span class="policy-desc">Professional reminder, friendly tone</span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-days">30–60 days</span>
+        <span class="policy-action policy-action--warn">Voice call</span>
+        <span class="policy-desc">Escalate to phone outreach with a script</span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-days">60+ days</span>
+        <span class="policy-action policy-action--critical">Escalate</span>
+        <span class="policy-desc">Flag for human review and management action</span>
+      </div>
+    </div>
+
+    <p class="reveal">
+      But — and this is the key — the agent can <strong>deviate from the default policy</strong>
+      when the situation warrants it. A 10-day-old invoice for &euro;200,000 might trigger an
+      email even though the policy says "monitor." A longtime customer with a clean payment
+      history might get an extra grace period. The AI explains its reasoning every time, so
+      the finance team can see exactly <em>why</em> it chose to act differently.
+    </p>
+
+    <h2 class="reveal">What the agent actually does</h2>
+
+    <p class="reveal">
+      It doesn't just make recommendations. It <em>acts</em>:
+    </p>
+
+    <div class="takeaway reveal">
+      <div class="takeaway-label">Autonomous actions</div>
+      <ul>
+        <li><strong>Drafts collection emails</strong> — the tone escalates automatically: friendly reminder for early overdue, firm for persistent, urgent for critical accounts</li>
+        <li><strong>Generates voice call scripts</strong> — complete with text-to-speech playback, ready for the collections team to review or use directly</li>
+        <li><strong>Detects payments</strong> — when a customer pays, the agent de-escalates automatically and stops outreach</li>
+        <li><strong>Tracks pipeline stages</strong> — each customer moves through not started → email sent → voice call → escalated, with full history</li>
+        <li><strong>Produces executive summaries</strong> — every cycle ends with a natural-language overview of what happened and what changed</li>
+      </ul>
+    </div>
+
+    <p class="reveal">
+      Every single decision and action is logged with timestamps, reasoning, and the data that
+      informed it. This isn't a black box — it's an audit trail that a finance team (or an
+      auditor) can follow step by step.
+    </p>
+
+    <h2 class="reveal">Privacy by design</h2>
+
+    <p class="reveal">
+      Financial data is sensitive. Customer names, invoice amounts, payment histories — this isn't
+      the kind of information you want flowing through external API calls to cloud services.
+    </p>
+
+    <p class="reveal">
+      The Collections Agent runs entirely on local hardware. The AI model runs on-premise,
+      inference happens on the same machine as the data, and nothing leaves the network.
+      For organizations that handle financial data under strict compliance requirements,
+      this isn't a nice-to-have — it's a requirement.
+    </p>
+
+    <blockquote class="reveal">
+      <p>Sensitive financial data never leaves the network. The entire system runs on local hardware.</p>
+    </blockquote>
+
+    <h2 class="reveal">What this means for the CFO office</h2>
+
+    <p class="reveal">
+      I built this as an AI engineer, but I think about it as a finance person. Here's what
+      matters from that perspective:
+    </p>
+
+    <p class="reveal">
+      <strong>It runs 24/7.</strong> No one needs to check overdue invoices manually every
+      morning. The agent is always watching, always current. If something changes at 2 AM,
+      it notices at 2 AM.
+    </p>
+
+    <p class="reveal">
+      <strong>Every decision is traceable.</strong> In finance, "the AI did it" is not an
+      acceptable answer. Every action the agent takes comes with a complete reasoning chain.
+      Why this customer? Why this action? Why now? It's all logged.
+    </p>
+
+    <p class="reveal">
+      <strong>Finance teams can ask questions.</strong> The system includes a Q&A assistant
+      where anyone on the team can ask natural-language questions about any account.
+      "What's the status of Acme Industries?" "Which customers were escalated last week?"
+      "What's the total overdue amount above 30 days?" No reports to build, no pivot tables
+      to wrestle with.
+    </p>
+
+    <p class="reveal">
+      <strong>The pattern is reusable.</strong> The agent loop — scan, assess, act, log,
+      repeat — isn't specific to collections. The same architecture applies to cash flow
+      forecasting, budget variance monitoring, vendor payment optimization, or audit trail
+      analysis. Collections is just the first use case.
+    </p>
+
+    <h2 class="reveal">Try it yourself</h2>
+
+    <p class="reveal">
+      The agent is running live with a demo dataset. You can watch it cycle through
+      accounts, see its reasoning, read the emails it drafts, and explore the full
+      dashboard — including the pipeline visualization and Q&A assistant.
+    </p>
+
+    <div class="cta-box reveal">
+      <a href="https://collections.stubborncoder.cloud/" target="_blank" class="cta-link">
+        <span class="cta-dot"></span>
+        Open the live demo at collections.stubborncoder.cloud &#8594;
+      </a>
+    </div>
+
+    <p class="reveal">
+      If you work in finance and this resonates — or if you're building agents for enterprise
+      use cases — I'd love to hear from you.
+    </p>
+
+    <div class="article-footer reveal">
+      <div class="article-footer-label">Connect</div>
+      <div class="resource-links">
+        <a href="https://linkedin.com/in/daviddiaztrapero" target="_blank" class="original-link">LinkedIn &#8594;</a>
+        <a href="https://stubborncoder.github.io" class="original-link original-link--gh">Blog &#8594;</a>
+      </div>
+    </div>
+
+  </article>
+
+  <section class="more-posts">
+    <div class="more-posts-title">More writing</div>
+    <a href="/blog/multimodal-embeddings" class="more-row">
+      <span class="more-date">2026.04</span>
+      <span class="more-title">Multimodal Embeddings: One Model, One Vector Space</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+    <a href="/blog/semantic-caching-hana" class="more-row">
+      <span class="more-date">2026.03</span>
+      <span class="more-title">Semantic Caching for SAP HANA Cloud</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+    <a href="/blog/hybrid-retrieval-hana" class="more-row">
+      <span class="more-date">2026.03</span>
+      <span class="more-title">Hybrid BM25 + Vector Retrieval for SAP HANA Cloud</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+  </section>
+</main>
+
+</BaseLayout>
+
+<style>
+  .post-hero { position: relative; padding: 10rem 0 4rem; overflow: hidden; }
+  .post-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80') center/cover no-repeat; filter: blur(8px) saturate(0.3) brightness(0.25); transform: scale(1.05); transition: filter var(--ease); }
+  :global([data-theme="light"]) .post-hero-bg { filter: blur(8px) saturate(0.35) brightness(1.1); }
+  .post-hero-overlay { position: absolute; inset: 0; background: var(--hero-overlay); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%); }
+  .post-hero-content { position: relative; z-index: 2; max-width: 720px; }
+  .post-back { font-size: 0.75rem; color: var(--text-lo); display: inline-flex; align-items: center; gap: 6px; margin-bottom: 2rem; transition: color 0.2s; text-decoration: none; }
+  .post-back:hover { color: var(--ember); }
+  .post-meta-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.72rem; color: var(--text-lo); flex-wrap: wrap; }
+  .source-badge { padding: 2px 8px; border-radius: 3px; border: 1px solid var(--ember-border); color: var(--ember); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .post-hero h1 { font-family: 'Libre Baskerville', serif; font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 400; line-height: 1.25; color: var(--text-hi); letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .post-hero h1 .em { color: var(--ember); font-style: italic; }
+  .post-subtitle { font-size: 1rem; color: var(--text); max-width: 560px; line-height: 1.8; }
+  .post-tags-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .post-tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--text-lo); }
+  .post-tag--ember { color: var(--ember); border-color: var(--ember-border); background: var(--ember-glow); }
+  .post-tag--gold { color: var(--gold); border-color: rgba(212,166,69,0.2); background: var(--gold-dim); }
+
+  .article { max-width: 720px; padding: 4rem 0 6rem; }
+  .article h2 { font-family: 'Libre Baskerville', serif; font-size: 1.4rem; font-weight: 400; color: var(--text-hi); margin-top: 3rem; margin-bottom: 1rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .article h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .article p { font-family: 'Libre Baskerville', serif; font-size: 0.95rem; line-height: 1.9; color: var(--text); margin-bottom: 1.25rem; }
+  .article strong { color: var(--text-hi); font-weight: 600; }
+  .article em { color: var(--ember); font-style: italic; }
+  .article blockquote { border-left: 3px solid var(--blockquote-border); background: var(--blockquote-bg); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+  .article blockquote p { font-style: italic; color: var(--text-hi); margin-bottom: 0; font-size: 0.92rem; }
+
+  /* Policy grid */
+  .policy-grid { margin: 2rem 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .policy-row { display: grid; grid-template-columns: 100px 120px 1fr; gap: 1.5rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); align-items: center; }
+  .policy-row:last-child { border-bottom: none; }
+  .policy-days { font-size: 0.82rem; color: var(--text-hi); font-weight: 500; }
+  .policy-action { font-size: 0.75rem; color: var(--ash); font-weight: 500; }
+  .policy-action--amber { color: var(--gold); }
+  .policy-action--warn { color: var(--ember); }
+  .policy-action--critical { color: #c0503e; font-weight: 600; }
+  .policy-desc { font-size: 0.78rem; color: var(--text); }
+
+  .takeaway { background: var(--bg-card); border: 1px solid var(--ember-border); border-radius: 10px; padding: 2rem; margin: 2.5rem 0; }
+  .takeaway-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ember); font-weight: 600; margin-bottom: 1rem; }
+  .takeaway ul { list-style: none; padding: 0; }
+  .takeaway li { font-family: 'Libre Baskerville', serif; font-size: 0.88rem; color: var(--text); padding: 0.5rem 0; padding-left: 1.2rem; position: relative; line-height: 1.7; }
+  .takeaway li::before { content: '›'; position: absolute; left: 0; color: var(--ember); font-weight: 700; }
+
+  /* CTA box */
+  .cta-box { margin: 2.5rem 0; }
+  .cta-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 0.9rem; color: var(--text-hi);
+    padding: 1rem 1.5rem; border: 1px solid var(--ember-border);
+    border-radius: 10px; transition: all 0.25s; text-decoration: none;
+    background: var(--ember-glow);
+  }
+  .cta-link:hover { background: var(--ember); color: white; border-color: var(--ember); }
+  .cta-link:hover .cta-dot { background: white; box-shadow: 0 0 6px white; }
+  .cta-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ember); flex-shrink: 0;
+    animation: cta-pulse 2s infinite;
+  }
+  @keyframes cta-pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--ember); } 50% { opacity: 0.4; box-shadow: none; } }
+
+  .article-footer { border-top: 1px solid var(--border); padding-top: 2.5rem; margin-top: 3rem; }
+  .article-footer-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1rem; }
+  .resource-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .original-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-hi); padding: 0.65rem 1.1rem; border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s; text-decoration: none; }
+  .original-link:hover { border-color: var(--ember-border); color: var(--ember); }
+  .original-link--gh { color: var(--ash); }
+
+  .more-posts { padding: 4rem 0; border-top: 1px solid var(--border); }
+  .more-posts-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1.5rem; }
+  .more-row { display: grid; grid-template-columns: 90px 1fr auto; gap: 1.5rem; align-items: baseline; padding: 1.25rem 0; border-top: 1px solid var(--border); cursor: pointer; transition: all 0.2s; text-decoration: none; }
+  .more-row:hover { padding-left: 0.75rem; }
+  .more-row:hover .more-title { color: var(--ember); }
+  .more-date { font-size: 0.72rem; color: var(--text-lo); font-variant-numeric: tabular-nums; }
+  .more-title { font-size: 0.85rem; color: var(--text-hi); transition: color 0.2s; }
+  .more-src { font-size: 0.65rem; color: var(--text-lo); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  @media (max-width: 768px) {
+    .policy-row { grid-template-columns: 1fr; gap: 0.3rem; }
+    .more-row { grid-template-columns: 1fr; gap: 0.3rem; }
+    .post-hero { padding: 8rem 0 3rem; }
+    .resource-links { flex-direction: column; }
+  }
+</style>
