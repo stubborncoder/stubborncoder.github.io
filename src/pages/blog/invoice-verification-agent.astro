@@ -1,0 +1,306 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Your AP Agent Knows Who's at Fault: ~/stubborncoder"
+  description="What changes when an AI agent 3-way matches every invoice, separates vendor-caused problems from internal ones, and routes each to the right person."
+  activeLink="writing"
+>
+
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-overlay"></div>
+  <div class="post-hero-content wrap">
+    <a href="/#writing" class="post-back reveal">&#8592; Back to writing</a>
+
+    <div class="post-meta-top reveal">
+      <span>April 2026</span>
+      <span>&middot;</span>
+      <span>8 min read</span>
+      <span class="series-badge">CFO Living Examples</span>
+    </div>
+
+    <h1 class="reveal">Your AP Agent Knows<br><span class="em">Who's at Fault</span></h1>
+
+    <p class="post-subtitle reveal">
+      Most AP mistakes look like vendor problems. Half of them aren't. An agent that
+      can tell the difference changes who gets the email, who gets the memo, and who
+      pays for the error.
+    </p>
+
+    <div class="post-tags-row reveal">
+      <span class="post-tag post-tag--ember">AI Agents</span>
+      <span class="post-tag post-tag--gold">AP Automation</span>
+      <span class="post-tag">3-Way Matching</span>
+      <span class="post-tag">CFO Office</span>
+      <span class="post-tag">Autonomous</span>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <article class="article">
+
+    <div class="series-intro reveal">
+      <span class="series-label">CFO Living Examples, Part 2</span>
+      <p>A series exploring how AI agents change the daily reality of finance teams. Not theory: working systems you can try.</p>
+    </div>
+
+    <h2 class="reveal">The overnight problem</h2>
+
+    <p class="reveal">
+      Between the time AP closes on Friday and reopens Monday, invoices stack up and
+      quietly cost you money. A 2/10-Net-30 invoice that slips past day ten is real cash
+      left on the table. A duplicate sneaks through because it came from a different
+      email address. A 7% price variance gets rubber-stamped because the clerk was
+      clearing a 200-invoice queue. A cost center blows past its quarterly budget and
+      nobody notices until month-end.
+    </p>
+
+    <p class="reveal">
+      The Invoice Verification Agent closes that gap. It runs in <strong>continuous cycles</strong>:
+      read invoices, 3-way match against POs and goods receipts, detect issues, assess
+      materiality, draft the right response, and hand clean invoices to the payment
+      queue. Every cycle. Every invoice.
+    </p>
+
+    <h2 class="reveal">How it makes decisions</h2>
+
+    <p class="reveal">
+      The agent works in three layers, in order.
+    </p>
+
+    <div class="policy-grid reveal">
+      <div class="policy-row">
+        <span class="policy-days">Layer 1</span>
+        <span class="policy-action">3-way match</span>
+        <span class="policy-desc">Invoice line vs PO line vs goods receipt. 2% price tolerance, exact on quantity.</span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-days">Layer 2</span>
+        <span class="policy-action policy-action--amber">Issue detection</span>
+        <span class="policy-desc">Price mismatch, quantity mismatch, duplicate suspect, missing PO, missing receipt, budget threshold.</span>
+      </div>
+      <div class="policy-row">
+        <span class="policy-days">Layer 3</span>
+        <span class="policy-action policy-action--warn">Responsibility</span>
+        <span class="policy-desc">Vendor, internal, mixed, or informational. Drives who gets contacted.</span>
+      </div>
+    </div>
+
+    <p class="reveal">
+      Layer three is the one that matters. A price mismatch is <em>vendor-caused</em>, so
+      we ask the vendor to fix it. A cost center blowing its budget is <em>internal-caused</em>,
+      so we escalate to the CC owner and the vendor never hears about it. A missing PO
+      is <em>mixed</em>: maybe procurement forgot to create it, maybe the vendor shipped
+      without one. Different paths, different emails, different people.
+    </p>
+
+    <blockquote class="reveal">
+      <p>Most AP automation treats every exception the same way. Classifying who's actually responsible is the difference between "useful" and "doesn't embarrass you in front of vendors."</p>
+    </blockquote>
+
+    <p class="reveal">
+      Once the issue is classified, the reasoning layer picks one of five actions per
+      invoice, with a materiality judgment and a plain-English rationale:
+      <strong>approve</strong>, <strong>request_correction</strong> (vendor-facing),
+      <strong>hold_pending_internal</strong> (internal only, vendor stays out of it),
+      <strong>reject_to_vendor</strong>, or <strong>reject_internal</strong>. Safety
+      overrides catch the obvious failure modes: it can never approve an invoice with
+      blocking issues, and it can never reject to a vendor before a human has reviewed
+      it internally.
+    </p>
+
+    <h2 class="reveal">What it actually does for your team</h2>
+
+    <p class="reveal">
+      This isn't a dashboard that flags exceptions and waits for someone to deal with
+      them. The agent acts:
+    </p>
+
+    <div class="takeaway reveal">
+      <div class="takeaway-label">Autonomous actions</div>
+      <ul>
+        <li><strong>Runs a 3-way match</strong> on every invoice line. Green, yellow, red per line, inline in the UI.</li>
+        <li><strong>Detects and reasons about issues</strong> with per-issue evidence: the detection logic, the data excerpt that triggered it, and the materiality call.</li>
+        <li><strong>Drafts vendor correction emails</strong> that are concrete, not bracketed templates. PO numbers, line references, EUR amounts filled in.</li>
+        <li><strong>Drafts internal memos</strong> for issues the vendor shouldn't hear about: budget overruns, duplicate-invoice investigations, procurement gaps.</li>
+        <li><strong>Builds an approval routing tree</strong> per invoice. Tier 1 (cost center owner), Tier 2 (+ AP manager), Tier 3 (+ Finance director), rendered as a live diagram you can click through.</li>
+        <li><strong>Clears clean invoices</strong> straight to "ready to pay" and hands them off to the payment agent, no human in the middle for the boring 80%.</li>
+        <li><strong>Surfaces early-payment discount opportunities</strong> with the savings math and days remaining on the discount window.</li>
+        <li><strong>Tracks cost avoided</strong>: the sum of overcharges the agent caught across price variance, quantity variance, and duplicate exposure, separate from discount opportunities.</li>
+      </ul>
+    </div>
+
+    <h2 class="reveal">The audit question</h2>
+
+    <p class="reveal">
+      Every CFO asks the same thing: <em>"Can I trace what it did and why?"</em>
+    </p>
+
+    <p class="reveal">
+      Yes, and AP adds a twist the auditor will appreciate. Every issue carries its
+      <strong>detection logic</strong> (for example, "price variance 7.14% exceeds 2%
+      tolerance") and the <strong>evidence</strong>: the PO line, the goods receipt,
+      the invoice row. Ask why vendor X was contacted on April 3rd and you get back
+      the exact match result, the exact issue, the exact rationale, and the exact
+      email that went out. Drill-down, not summary. That's what survives an audit.
+    </p>
+
+    <h2 class="reveal">Why local inference</h2>
+
+    <p class="reveal">
+      An AP cycle fires more model calls than a collections cycle: one assessment,
+      potentially one vendor email, potentially one internal memo, one routing tree
+      per invoice. Multiply by thousands of invoices a month and cloud API costs stop
+      being a footnote. Running the model on local hardware keeps the economics sane
+      and, as a bonus, keeps supplier-specific pricing inside the perimeter, which
+      matters more for AP than AR.
+    </p>
+
+    <p class="reveal">
+      This is a design choice, not a religion. The same architecture runs against a
+      top-tier cloud model if you'd rather pay for latency and quality and trade
+      some data-residency flexibility. The agent consumes structured output, it
+      doesn't care where the structure comes from.
+    </p>
+
+    <h2 class="reveal">Beyond AP</h2>
+
+    <p class="reveal">
+      The loop behind this agent, <em>detect, classify responsibility, decide, act, log</em>,
+      is not specific to invoice verification. It maps onto any finance process where
+      the hard part isn't spotting the exception, it's figuring out who owns it:
+    </p>
+
+    <p class="reveal">
+      <strong>Expense auditing.</strong> Master-data quality. Vendor onboarding
+      compliance. Intercompany invoice matching. T&E policy enforcement. Same cycle,
+      same architecture, different rules.
+    </p>
+
+    <p class="reveal">
+      Next in the series: the payment agent itself, which takes the "ready to pay"
+      set this agent produces and handles scheduling, release, and reconciliation.
+      AP verification decides <em>what</em> to pay. The payment agent decides
+      <em>when</em>.
+    </p>
+
+    <h2 class="reveal">See it work</h2>
+
+    <p class="reveal">
+      The agent is running live with a demo dataset. You can watch it 3-way match real
+      invoices, see which issues it classifies as vendor vs internal, read the emails
+      and memos it drafts, and click through the approval routing diagrams.
+    </p>
+
+    <div class="cta-box reveal">
+      <a href="https://invoice-verification.stubborncoder.cloud/" target="_blank" class="cta-link">
+        <span class="cta-dot"></span>
+        Open the live demo at invoice-verification.stubborncoder.cloud &#8594;
+      </a>
+    </div>
+
+    <div class="article-footer reveal">
+      <div class="article-footer-label">Connect</div>
+      <div class="resource-links">
+        <a href="https://linkedin.com/in/daviddiaztrapero" target="_blank" class="original-link">LinkedIn &#8594;</a>
+      </div>
+    </div>
+
+  </article>
+
+  <section class="more-posts">
+    <div class="more-posts-title">More writing</div>
+    <a href="/blog/ar-collections-agent" class="more-row">
+      <span class="more-date">2026.04</span>
+      <span class="more-title">Your AR Team Just Got an Agent That Never Sleeps</span>
+      <span class="more-src">CFO Living Examples, Part 1</span>
+    </a>
+    <a href="/blog/multimodal-embeddings" class="more-row">
+      <span class="more-date">2026.04</span>
+      <span class="more-title">Multimodal Embeddings: One Model, One Vector Space</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+    <a href="/blog/semantic-caching-hana" class="more-row">
+      <span class="more-date">2026.03</span>
+      <span class="more-title">Semantic Caching for SAP HANA Cloud</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+  </section>
+</main>
+
+</BaseLayout>
+
+<style>
+  .post-hero { position: relative; padding: 10rem 0 4rem; overflow: hidden; }
+  .post-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&q=80') center/cover no-repeat; filter: blur(8px) saturate(0.3) brightness(0.25); transform: scale(1.05); transition: filter var(--ease); }
+  :global([data-theme="light"]) .post-hero-bg { filter: blur(8px) saturate(0.35) brightness(1.1); }
+  .post-hero-overlay { position: absolute; inset: 0; background: var(--hero-overlay); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%); }
+  .post-hero-content { position: relative; z-index: 2; max-width: 720px; }
+  .post-back { font-size: 0.75rem; color: var(--text-lo); display: inline-flex; align-items: center; gap: 6px; margin-bottom: 2rem; transition: color 0.2s; text-decoration: none; }
+  .post-back:hover { color: var(--ember); }
+  .post-meta-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.72rem; color: var(--text-lo); flex-wrap: wrap; }
+  .series-badge { padding: 2px 8px; border-radius: 3px; border: 1px solid var(--gold-dim); color: var(--gold); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em; background: var(--gold-dim); }
+  .post-hero h1 { font-family: 'Libre Baskerville', serif; font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 400; line-height: 1.25; color: var(--text-hi); letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .post-hero h1 .em { color: var(--ember); font-style: italic; }
+  .post-subtitle { font-size: 1rem; color: var(--text); max-width: 560px; line-height: 1.8; }
+  .post-tags-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .post-tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--text-lo); }
+  .post-tag--ember { color: var(--ember); border-color: var(--ember-border); background: var(--ember-glow); }
+  .post-tag--gold { color: var(--gold); border-color: rgba(212,166,69,0.2); background: var(--gold-dim); }
+
+  .series-intro { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 2.5rem; }
+  .series-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 600; display: block; margin-bottom: 0.5rem; }
+  .series-intro p { font-family: 'Libre Baskerville', serif; font-size: 0.88rem; color: var(--text); line-height: 1.7; margin: 0; }
+
+  .article { max-width: 720px; padding: 4rem 0 6rem; }
+  .article h2 { font-family: 'Libre Baskerville', serif; font-size: 1.4rem; font-weight: 400; color: var(--text-hi); margin-top: 3rem; margin-bottom: 1rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .article h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .article p { font-family: 'Libre Baskerville', serif; font-size: 0.95rem; line-height: 1.9; color: var(--text); margin-bottom: 1.25rem; }
+  .article strong { color: var(--text-hi); font-weight: 600; }
+  .article em { color: var(--ember); font-style: italic; }
+  .article blockquote { border-left: 3px solid var(--blockquote-border); background: var(--blockquote-bg); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+  .article blockquote p { font-style: italic; color: var(--text-hi); margin-bottom: 0; font-size: 0.92rem; }
+
+  .policy-grid { margin: 2rem 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .policy-row { display: grid; grid-template-columns: 100px 140px 1fr; gap: 1.5rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); align-items: center; }
+  .policy-row:last-child { border-bottom: none; }
+  .policy-days { font-size: 0.82rem; color: var(--text-hi); font-weight: 500; }
+  .policy-action { font-size: 0.75rem; color: var(--ash); font-weight: 500; }
+  .policy-action--amber { color: var(--gold); }
+  .policy-action--warn { color: var(--ember); }
+  .policy-action--critical { color: #c0503e; font-weight: 600; }
+  .policy-desc { font-size: 0.78rem; color: var(--text); }
+
+  .takeaway { background: var(--bg-card); border: 1px solid var(--ember-border); border-radius: 10px; padding: 2rem; margin: 2.5rem 0; }
+  .takeaway-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ember); font-weight: 600; margin-bottom: 1rem; }
+  .takeaway ul { list-style: none; padding: 0; }
+  .takeaway li { font-family: 'Libre Baskerville', serif; font-size: 0.88rem; color: var(--text); padding: 0.5rem 0; padding-left: 1.2rem; position: relative; line-height: 1.7; }
+  .takeaway li::before { content: '›'; position: absolute; left: 0; color: var(--ember); font-weight: 700; }
+
+  .cta-box { margin: 2.5rem 0; }
+  .cta-link { display: inline-flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--text-hi); padding: 1rem 1.5rem; border: 1px solid var(--ember-border); border-radius: 10px; transition: all 0.25s; text-decoration: none; background: var(--ember-glow); }
+  .cta-link:hover { background: var(--ember); color: white; border-color: var(--ember); }
+  .cta-link:hover .cta-dot { background: white; box-shadow: 0 0 6px white; }
+  .cta-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ember); flex-shrink: 0; animation: cta-pulse 2s infinite; }
+  @keyframes cta-pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 6px var(--ember); } 50% { opacity: 0.4; box-shadow: none; } }
+
+  .article-footer { border-top: 1px solid var(--border); padding-top: 2.5rem; margin-top: 3rem; }
+  .article-footer-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1rem; }
+  .resource-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .original-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-hi); padding: 0.65rem 1.1rem; border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s; text-decoration: none; }
+  .original-link:hover { border-color: var(--ember-border); color: var(--ember); }
+
+  .more-posts { padding: 4rem 0; border-top: 1px solid var(--border); }
+  .more-posts-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1.5rem; }
+  .more-row { display: grid; grid-template-columns: 90px 1fr auto; gap: 1.5rem; align-items: baseline; padding: 1.25rem 0; border-top: 1px solid var(--border); cursor: pointer; transition: all 0.2s; text-decoration: none; }
+  .more-row:hover { padding-left: 0.75rem; }
+  .more-row:hover .more-title { color: var(--ember); }
+  .more-date { font-size: 0.72rem; color: var(--text-lo); font-variant-numeric: tabular-nums; }
+  .more-title { font-size: 0.85rem; color: var(--text-hi); transition: color 0.2s; }
+  .more-src { font-size: 0.65rem; color: var(--text-lo); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  @media (max-width: 768px) { .policy-row { grid-template-columns: 1fr; gap: 0.3rem; } .more-row { grid-template-columns: 1fr; gap: 0.3rem; } .post-hero { padding: 8rem 0 3rem; } .resource-links { flex-direction: column; } }
+</style>
