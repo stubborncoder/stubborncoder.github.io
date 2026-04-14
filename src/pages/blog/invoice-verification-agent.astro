@@ -3,8 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  title="Your AP Agent Knows Who's at Fault: ~/stubborncoder"
-  description="What changes when an AI agent 3-way matches every invoice, separates vendor-caused problems from internal ones, and routes each to the right person."
+  title="Let Your AP Clerks Do the Work That Needs a Human: ~/stubborncoder"
+  description="What changes when an AI agent handles the 3-way matching, drafts the vendor emails, and routes approvals, so AP clerks only touch the invoices that actually need judgment."
   activeLink="writing"
 >
 
@@ -21,12 +21,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <span class="series-badge">CFO Living Examples</span>
     </div>
 
-    <h1 class="reveal">Your AP Agent Knows<br><span class="em">Who's at Fault</span></h1>
+    <h1 class="reveal">Let AP Clerks Do the Work<br>That <span class="em">Needs a Human</span></h1>
 
     <p class="post-subtitle reveal">
-      Most AP mistakes look like vendor problems. Half of them aren't. An agent that
-      can tell the difference changes who gets the email, who gets the memo, and who
-      pays for the error.
+      AP clerks spend most of their day on stuff that shouldn't need a person. Match
+      lines, chase receipts, write the same correction email for the hundredth time.
+      An agent can take all of that off their plate and hand back the work that
+      actually needs judgment.
     </p>
 
     <div class="post-tags-row reveal">
@@ -47,22 +48,29 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <p>A series exploring how AI agents change the daily reality of finance teams. Not theory: working systems you can try.</p>
     </div>
 
-    <h2 class="reveal">The overnight problem</h2>
+    <h2 class="reveal">Where AP time actually goes</h2>
 
     <p class="reveal">
-      Between the time AP closes on Friday and reopens Monday, invoices stack up and
-      quietly cost you money. A 2/10-Net-30 invoice that slips past day ten is real cash
-      left on the table. A duplicate sneaks through because it came from a different
-      email address. A 7% price variance gets rubber-stamped because the clerk was
-      clearing a 200-invoice queue. A cost center blows past its quarterly budget and
-      nobody notices until month-end.
+      If you've ever sat next to an AP clerk you know the rhythm. Open invoice.
+      Find the PO. Find the goods receipt. Check quantities, check prices. See
+      a 7% variance. Open the email template. Fill in the PO number, the line,
+      the amount, the correction request. Send. Next one.
     </p>
 
     <p class="reveal">
-      The Invoice Verification Agent closes that gap. It runs in <strong>continuous cycles</strong>:
-      read invoices, 3-way match against POs and goods receipts, detect issues, assess
-      materiality, draft the right response, and hand clean invoices to the payment
-      queue. Every cycle. Every invoice.
+      None of that is judgment. It's pattern matching against structured data,
+      and it's the part of the job that burns people out and causes mistakes.
+      Worse, the invoices that actually matter get the same five minutes as
+      everything else: the 7% variance on a strategic vendor, the cost center
+      about to breach budget, the thing that looks like a duplicate but isn't.
+    </p>
+
+    <p class="reveal">
+      The agent does the mechanical 80% end to end. Reads the invoice. Runs the
+      3-way match. Flags issues. Classifies them. Drafts the email or the memo.
+      Routes the approval. Clean invoices go straight to the payment queue. Your
+      clerks stop touching any of that and start reviewing what the agent put
+      together.
     </p>
 
     <h2 class="reveal">How it makes decisions</h2>
@@ -90,33 +98,33 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
 
     <p class="reveal">
-      Layer three is the one that matters. A price mismatch is <em>vendor-caused</em>, so
-      we ask the vendor to fix it. A cost center blowing its budget is <em>internal-caused</em>,
-      so we escalate to the CC owner and the vendor never hears about it. A missing PO
-      is <em>mixed</em>: maybe procurement forgot to create it, maybe the vendor shipped
-      without one. Different paths, different emails, different people.
+      Layer three is where it gets interesting. A price mismatch is the
+      <em>vendor's fault</em>, so we ask them to fix it. A cost center blowing its
+      budget is <em>our fault</em>, so we go to the CC owner and the vendor never
+      hears about it. A missing PO could go either way: maybe procurement forgot,
+      maybe the vendor shipped without one. Different paths, different emails,
+      different people.
     </p>
 
     <blockquote class="reveal">
-      <p>Most AP automation treats every exception the same way. Classifying who's actually responsible is the difference between "useful" and "doesn't embarrass you in front of vendors."</p>
+      <p>Most AP automation treats every problem the same. Figuring out who's actually responsible is the difference between useful and awkward conversations with vendors.</p>
     </blockquote>
 
     <p class="reveal">
-      Once the issue is classified, the reasoning layer picks one of five actions per
-      invoice, with a materiality judgment and a plain-English rationale:
-      <strong>approve</strong>, <strong>request_correction</strong> (vendor-facing),
-      <strong>hold_pending_internal</strong> (internal only, vendor stays out of it),
-      <strong>reject_to_vendor</strong>, or <strong>reject_internal</strong>. Safety
-      overrides catch the obvious failure modes: it can never approve an invoice with
-      blocking issues, and it can never reject to a vendor before a human has reviewed
-      it internally.
+      Then the reasoning layer picks one of five actions per invoice, with a reason
+      and a materiality call: <strong>approve</strong>, <strong>request_correction</strong>
+      (email the vendor), <strong>hold_pending_internal</strong> (escalate internally,
+      don't tell the vendor), <strong>reject_to_vendor</strong>, or
+      <strong>reject_internal</strong>. Safety overrides stop the obvious mistakes.
+      It can't approve an invoice with blocking issues, and it can't send a rejection
+      to a vendor before a human has looked at it.
     </p>
 
     <h2 class="reveal">What it actually does for your team</h2>
 
     <p class="reveal">
-      This isn't a dashboard that flags exceptions and waits for someone to deal with
-      them. The agent acts:
+      It's not a dashboard that flags exceptions and hopes someone gets to them.
+      It acts:
     </p>
 
     <div class="takeaway reveal">
@@ -136,63 +144,59 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <h2 class="reveal">The audit question</h2>
 
     <p class="reveal">
-      Every CFO asks the same thing: <em>"Can I trace what it did and why?"</em>
+      Every CFO asks the same thing. <em>Can I trace what it did and why?</em>
     </p>
 
     <p class="reveal">
-      Yes, and AP adds a twist the auditor will appreciate. Every issue carries its
+      Yes, and AP adds a nice twist. Every issue comes with its
       <strong>detection logic</strong> (for example, "price variance 7.14% exceeds 2%
-      tolerance") and the <strong>evidence</strong>: the PO line, the goods receipt,
-      the invoice row. Ask why vendor X was contacted on April 3rd and you get back
-      the exact match result, the exact issue, the exact rationale, and the exact
-      email that went out. Drill-down, not summary. That's what survives an audit.
+      tolerance") and the <strong>evidence</strong> behind it: the PO line, the goods
+      receipt, the invoice row. Ask why vendor X was contacted on April 3rd and you
+      get the match result, the issue, the rationale, and the email that went out.
+      The actual thing, not a summary. That's what holds up in an audit.
     </p>
 
     <h2 class="reveal">Why local inference</h2>
 
     <p class="reveal">
-      An AP cycle fires more model calls than a collections cycle: one assessment,
-      potentially one vendor email, potentially one internal memo, one routing tree
-      per invoice. Multiply by thousands of invoices a month and cloud API costs stop
-      being a footnote. Running the model on local hardware keeps the economics sane
-      and, as a bonus, keeps supplier-specific pricing inside the perimeter, which
-      matters more for AP than AR.
+      An AP cycle fires more model calls than a collections one. An assessment,
+      maybe a vendor email, maybe an internal memo, a routing tree, for every
+      invoice. Multiply that by a few thousand invoices a month and cloud costs
+      stop being a rounding error. Local hardware keeps the math sane, and as a
+      bonus your supplier-specific pricing never leaves the network, which matters
+      more for AP than AR.
     </p>
 
     <p class="reveal">
-      This is a design choice, not a religion. The same architecture runs against a
-      top-tier cloud model if you'd rather pay for latency and quality and trade
-      some data-residency flexibility. The agent consumes structured output, it
-      doesn't care where the structure comes from.
+      This is a design choice, not a rule. Swap in a top-tier cloud model if you'd
+      rather pay for latency and quality and give up some data-residency flexibility.
+      The agent just needs structured output, it doesn't care where it comes from.
     </p>
 
     <h2 class="reveal">Beyond AP</h2>
 
     <p class="reveal">
-      The loop behind this agent, <em>detect, classify responsibility, decide, act, log</em>,
-      is not specific to invoice verification. It maps onto any finance process where
-      the hard part isn't spotting the exception, it's figuring out who owns it:
+      The loop behind this agent, <em>detect, classify, decide, act, log</em>, isn't
+      specific to invoice verification. It works for anything where the hard part
+      isn't spotting the exception but figuring out who owns it.
     </p>
 
     <p class="reveal">
-      <strong>Expense auditing.</strong> Master-data quality. Vendor onboarding
-      compliance. Intercompany invoice matching. T&E policy enforcement. Same cycle,
-      same architecture, different rules.
+      <strong>Expense auditing.</strong> Master-data quality. Vendor onboarding.
+      Intercompany matching. T&E policy. Same cycle, different rules.
     </p>
 
     <p class="reveal">
-      Next in the series: the payment agent itself, which takes the "ready to pay"
-      set this agent produces and handles scheduling, release, and reconciliation.
-      AP verification decides <em>what</em> to pay. The payment agent decides
-      <em>when</em>.
+      Next in the series: the payment agent. This one decides <em>what</em> to pay.
+      The next one decides <em>when</em>.
     </p>
 
     <h2 class="reveal">See it work</h2>
 
     <p class="reveal">
-      The agent is running live with a demo dataset. You can watch it 3-way match real
-      invoices, see which issues it classifies as vendor vs internal, read the emails
-      and memos it drafts, and click through the approval routing diagrams.
+      The agent is running live with a demo dataset. You can watch it match real
+      invoices, see which issues it labels vendor vs internal, read the emails and
+      memos it drafts, and click through the approval diagrams.
     </p>
 
     <div class="cta-box reveal">
