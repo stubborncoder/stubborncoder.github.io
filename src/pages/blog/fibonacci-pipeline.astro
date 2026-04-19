@@ -1,0 +1,284 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="The Fibonacci Pipeline: How Much of Your Business Should an Agent Run? ~/stubborncoder"
+  description="A simple ratio for integrating AI agents into enterprise operations: 60% deterministic code, 30% LLM reasoning, 10% human judgment."
+  activeLink="writing"
+>
+
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-overlay"></div>
+  <div class="post-hero-content wrap">
+    <a href="/#writing" class="post-back reveal">&#8592; Back to writing</a>
+
+    <div class="post-meta-top reveal">
+      <span>April 2026</span>
+      <span>&middot;</span>
+      <span>6 min read</span>
+    </div>
+
+    <h1 class="reveal">The <span class="em">Fibonacci Pipeline</span></h1>
+
+    <p class="post-subtitle reveal">
+      How much of a business process should an agent actually run?
+      There's a ratio that works. And it's not 100%.
+    </p>
+
+    <div class="post-tags-row reveal">
+      <span class="post-tag post-tag--ember">AI Agents</span>
+      <span class="post-tag post-tag--gold">Enterprise</span>
+      <span class="post-tag">Pipeline Design</span>
+      <span class="post-tag">Architecture</span>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <article class="article">
+
+    <h2 class="reveal">The question nobody's asking</h2>
+
+    <p class="reveal">
+      Everyone's talking about what agents can do. Very few people are asking how
+      much of a business process they <em>should</em> do.
+    </p>
+
+    <p class="reveal">
+      There's a temptation, especially now, to hand the whole thing over. Read the
+      data, make the decision, take the action, done. Full autonomy. But if you've
+      ever built something that runs inside a real company, you know that's not how
+      trust works. Finance teams don't hand over the keys because your demo looked
+      good. Operations teams don't let code approve purchase orders because it
+      passed a benchmark.
+    </p>
+
+    <p class="reveal">
+      So you need a ratio. How much is code, how much is model, how much is human.
+      And it turns out there's one that works.
+    </p>
+
+    <h2 class="reveal">60 / 30 / 10</h2>
+
+    <div class="ratio-visual reveal">
+      <div class="ratio-bar">
+        <div class="ratio-segment ratio-segment--code" style="flex: 6;">
+          <span class="ratio-pct">60%</span>
+          <span class="ratio-label">Deterministic</span>
+        </div>
+        <div class="ratio-segment ratio-segment--llm" style="flex: 3;">
+          <span class="ratio-pct">30%</span>
+          <span class="ratio-label">LLM</span>
+        </div>
+        <div class="ratio-segment ratio-segment--human" style="flex: 1;">
+          <span class="ratio-pct">10%</span>
+          <span class="ratio-label">Human</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="reveal">
+      <strong>60% deterministic.</strong> Code. Rules. Arithmetic. Structured queries.
+      The stuff that should never hallucinate because it never involves a model.
+      Matching a PO against an invoice is math. Checking a threshold is a comparison.
+      Validating a field is a regex. These steps are the backbone of the pipeline
+      and they need to be rock solid.
+    </p>
+
+    <p class="reveal">
+      <strong>30% LLM-assisted.</strong> This is where the model earns its keep.
+      Reasoning about context. Classifying things that don't fit neatly into rules.
+      Drafting communication that needs to sound human. Weighing materiality when the
+      numbers alone don't tell the full story. You want the model here because these
+      are the steps where code alone falls short.
+    </p>
+
+    <p class="reveal">
+      <strong>10% human.</strong> Approve. Override. Make the final call on the edge
+      cases. This isn't busywork, it's the part that keeps the business accountable.
+      A human looks at what the pipeline produced, confirms it makes sense, and hits
+      go. Or doesn't, and says why.
+    </p>
+
+    <h2 class="reveal">Why this ratio works</h2>
+
+    <p class="reveal">
+      It's not magic. It's about matching each step to whatever does it best.
+    </p>
+
+    <p class="reveal">
+      The deterministic 60% gives you <em>reliability</em>. These steps produce the
+      same output every time for the same input. No temperature, no prompt
+      sensitivity, no "it worked yesterday but not today." When something goes wrong,
+      you can trace it. When an auditor asks what happened, you can show them exactly.
+    </p>
+
+    <p class="reveal">
+      The LLM 30% gives you <em>intelligence</em>. These are the steps that used to
+      require a person not because they were hard, but because they needed judgment.
+      "Is this price variance a mistake or a renegotiated contract?" "Should we
+      escalate this or wait?" "How do I write this email so the vendor actually fixes
+      it?" Code can't do that. Models can, if you scope them right.
+    </p>
+
+    <p class="reveal">
+      The human 10% gives you <em>trust</em>. The pipeline doesn't run off into the
+      dark. Someone is in the loop, but only for the decisions that matter. They're
+      not reviewing every invoice or reading every email. They're reviewing the ones
+      the agent flagged as interesting.
+    </p>
+
+    <blockquote class="reveal">
+      <p>The goal isn't to remove people from the process. It's to stop wasting them on the parts that don't need them.</p>
+    </blockquote>
+
+    <h2 class="reveal">What happens when the ratio is off</h2>
+
+    <p class="reveal">
+      Too much LLM and not enough deterministic? You get inconsistency. The same
+      invoice gets different results on Tuesday than it got on Monday. Your audit
+      trail becomes "the model thought this was fine." Good luck explaining that to
+      compliance.
+    </p>
+
+    <p class="reveal">
+      Too much deterministic and not enough LLM? You're back to where you were five
+      years ago. A rules engine that breaks every time reality doesn't fit the rules.
+      Nobody can explain the edge cases because nobody built for them.
+    </p>
+
+    <p class="reveal">
+      Too much human and not enough automation? Then you haven't actually automated
+      anything. You've just added a dashboard to someone's already full day. The whole
+      point was to free up the team for the work that actually needs their brain.
+    </p>
+
+    <h2 class="reveal">How to think about it for your process</h2>
+
+    <p class="reveal">
+      Take any business process and break it into steps. For each step, ask one
+      question: <em>does this need judgment or just execution?</em>
+    </p>
+
+    <p class="reveal">
+      If it's execution, make it deterministic. Write it in code. Test it. Don't
+      involve a model.
+    </p>
+
+    <p class="reveal">
+      If it needs judgment, ask a second question: <em>is the judgment routine or
+      genuinely complex?</em> Routine judgment (classify this, draft that, pick from
+      these options) is the model's territory. Complex judgment (approve a &euro;500K
+      exception, override a vendor relationship decision) stays with a person.
+    </p>
+
+    <p class="reveal">
+      You'll find that most processes naturally land around 60/30/10. Not exactly,
+      because the numbers aren't the point. The principle is: <strong>build the
+      pipeline around code, use the model where it adds something code can't, and
+      keep humans on the decisions that carry real weight.</strong>
+    </p>
+
+    <h2 class="reveal">Credit where it's due</h2>
+
+    <p class="reveal">
+      This idea crystallized for me after conversations with
+      <a href="https://www.skool.com/ai-automation-society/about" target="_blank" class="inline-link">Nate Herk</a>
+      and the AI Automation Society community. The framing of agents as participants
+      in a larger flow, not replacements for the flow, is something I keep coming
+      back to when designing systems for enterprise clients. The Fibonacci name is
+      mine, the intuition behind the ratio is shared.
+    </p>
+
+    <div class="article-footer reveal">
+      <div class="article-footer-label">Connect</div>
+      <div class="resource-links">
+        <a href="https://linkedin.com/in/daviddiaztrapero" target="_blank" class="original-link">LinkedIn &#8594;</a>
+        <a href="https://www.skool.com/ai-automation-society/about" target="_blank" class="original-link">AI Automation Society &#8594;</a>
+      </div>
+    </div>
+
+  </article>
+
+  <section class="more-posts">
+    <div class="more-posts-title">More writing</div>
+    <a href="/blog/invoice-verification-agent" class="more-row">
+      <span class="more-date">2026.04</span>
+      <span class="more-title">Let AP Clerks Do the Work That Needs a Human</span>
+      <span class="more-src">CFO Living Examples, Part 2</span>
+    </a>
+    <a href="/blog/ar-collections-agent" class="more-row">
+      <span class="more-date">2026.04</span>
+      <span class="more-title">Your AR Team Just Got an Agent That Never Sleeps</span>
+      <span class="more-src">CFO Living Examples, Part 1</span>
+    </a>
+    <a href="/blog/multimodal-embeddings" class="more-row">
+      <span class="more-date">2026.04</span>
+      <span class="more-title">Multimodal Embeddings: One Model, One Vector Space</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+  </section>
+</main>
+
+</BaseLayout>
+
+<style>
+  .post-hero { position: relative; padding: 10rem 0 4rem; overflow: hidden; }
+  .post-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1920&q=80') center/cover no-repeat; filter: blur(8px) saturate(0.3) brightness(0.25); transform: scale(1.05); transition: filter var(--ease); }
+  :global([data-theme="light"]) .post-hero-bg { filter: blur(8px) saturate(0.35) brightness(1.1); }
+  .post-hero-overlay { position: absolute; inset: 0; background: var(--hero-overlay); mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%); }
+  .post-hero-content { position: relative; z-index: 2; max-width: 720px; }
+  .post-back { font-size: 0.75rem; color: var(--text-lo); display: inline-flex; align-items: center; gap: 6px; margin-bottom: 2rem; transition: color 0.2s; text-decoration: none; }
+  .post-back:hover { color: var(--ember); }
+  .post-meta-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; font-size: 0.72rem; color: var(--text-lo); flex-wrap: wrap; }
+  .post-hero h1 { font-family: 'Libre Baskerville', serif; font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 400; line-height: 1.25; color: var(--text-hi); letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .post-hero h1 .em { color: var(--ember); font-style: italic; }
+  .post-subtitle { font-size: 1rem; color: var(--text); max-width: 560px; line-height: 1.8; }
+  .post-tags-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .post-tag { font-size: 0.65rem; padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--text-lo); }
+  .post-tag--ember { color: var(--ember); border-color: var(--ember-border); background: var(--ember-glow); }
+  .post-tag--gold { color: var(--gold); border-color: rgba(212,166,69,0.2); background: var(--gold-dim); }
+
+  .article { max-width: 720px; padding: 4rem 0 6rem; }
+  .article h2 { font-family: 'Libre Baskerville', serif; font-size: 1.4rem; font-weight: 400; color: var(--text-hi); margin-top: 3rem; margin-bottom: 1rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .article h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+  .article p { font-family: 'Libre Baskerville', serif; font-size: 0.95rem; line-height: 1.9; color: var(--text); margin-bottom: 1.25rem; }
+  .article strong { color: var(--text-hi); font-weight: 600; }
+  .article em { color: var(--ember); font-style: italic; }
+  .article blockquote { border-left: 3px solid var(--blockquote-border); background: var(--blockquote-bg); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
+  .article blockquote p { font-style: italic; color: var(--text-hi); margin-bottom: 0; font-size: 0.92rem; }
+
+  .ratio-visual { margin: 2rem 0; }
+  .ratio-bar { display: flex; border-radius: 10px; overflow: hidden; height: 72px; border: 1px solid var(--border); }
+  .ratio-segment { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; transition: all 0.3s; }
+  .ratio-segment--code { background: var(--bg-card); border-right: 1px solid var(--border); }
+  .ratio-segment--llm { background: var(--ember-glow); border-right: 1px solid var(--border); }
+  .ratio-segment--human { background: var(--gold-dim); }
+  .ratio-pct { font-size: 1.1rem; font-weight: 600; color: var(--text-hi); }
+  .ratio-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-lo); }
+  .ratio-segment--code .ratio-pct { color: var(--ash); }
+  .ratio-segment--llm .ratio-pct { color: var(--ember); }
+  .ratio-segment--human .ratio-pct { color: var(--gold); }
+
+  .inline-link { color: var(--ember); text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s; }
+  .inline-link:hover { color: var(--gold); }
+
+  .article-footer { border-top: 1px solid var(--border); padding-top: 2.5rem; margin-top: 3rem; }
+  .article-footer-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1rem; }
+  .resource-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .original-link { display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-hi); padding: 0.65rem 1.1rem; border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s; text-decoration: none; }
+  .original-link:hover { border-color: var(--ember-border); color: var(--ember); }
+
+  .more-posts { padding: 4rem 0; border-top: 1px solid var(--border); }
+  .more-posts-title { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1.5rem; }
+  .more-row { display: grid; grid-template-columns: 90px 1fr auto; gap: 1.5rem; align-items: baseline; padding: 1.25rem 0; border-top: 1px solid var(--border); cursor: pointer; transition: all 0.2s; text-decoration: none; }
+  .more-row:hover { padding-left: 0.75rem; }
+  .more-row:hover .more-title { color: var(--ember); }
+  .more-date { font-size: 0.72rem; color: var(--text-lo); font-variant-numeric: tabular-nums; }
+  .more-title { font-size: 0.85rem; color: var(--text-hi); transition: color 0.2s; }
+  .more-src { font-size: 0.65rem; color: var(--text-lo); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  @media (max-width: 768px) { .more-row { grid-template-columns: 1fr; gap: 0.3rem; } .post-hero { padding: 8rem 0 3rem; } .resource-links { flex-direction: column; } }
+</style>
