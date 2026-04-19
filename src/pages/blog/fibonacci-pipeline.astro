@@ -62,21 +62,45 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     <h2 class="reveal">60 / 30 / 10</h2>
 
-    <div class="ratio-visual reveal">
-      <div class="ratio-bar">
-        <div class="ratio-segment ratio-segment--code" style="flex: 6;">
-          <span class="ratio-pct">60%</span>
-          <span class="ratio-label">Deterministic</span>
-        </div>
-        <div class="ratio-segment ratio-segment--llm" style="flex: 3;">
-          <span class="ratio-pct">30%</span>
-          <span class="ratio-label">LLM</span>
-        </div>
-        <div class="ratio-segment ratio-segment--human" style="flex: 1;">
-          <span class="ratio-pct">10%</span>
-          <span class="ratio-label">Human</span>
-        </div>
-      </div>
+    <div class="fibonacci-illustration reveal">
+      <svg class="fib-spiral" viewBox="0 0 600 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fibonacci rectangles -->
+        <rect class="fib-rect fib-rect--1" x="10" y="10" width="192" height="192" rx="6" />
+        <rect class="fib-rect fib-rect--2" x="202" y="10" width="118" height="118" rx="6" />
+        <rect class="fib-rect fib-rect--3" x="202" y="128" width="74" height="74" rx="5" />
+        <rect class="fib-rect fib-rect--4" x="276" y="156" width="44" height="46" rx="4" />
+        <rect class="fib-rect fib-rect--5" x="276" y="128" width="28" height="28" rx="3" />
+
+        <!-- Spiral path -->
+        <path class="fib-path" d="M 10 202 Q 10 10 202 10 Q 320 10 320 128 Q 320 202 276 202 Q 202 202 248 156 Q 276 128 304 142" stroke-width="2" stroke-linecap="round" />
+
+        <!-- Labels inside rectangles -->
+        <text class="fib-label fib-label--code" x="106" y="96" text-anchor="middle">60%</text>
+        <text class="fib-sublabel fib-sublabel--code" x="106" y="116" text-anchor="middle">Deterministic</text>
+        <text class="fib-label fib-label--llm" x="261" y="64" text-anchor="middle">30%</text>
+        <text class="fib-sublabel fib-sublabel--llm" x="261" y="80" text-anchor="middle">LLM</text>
+        <text class="fib-label fib-label--human" x="239" y="170" text-anchor="middle">10%</text>
+        <text class="fib-sublabel fib-sublabel--human" x="239" y="183" text-anchor="middle">Human</text>
+
+        <!-- Connecting line to bar below -->
+        <line class="fib-connector" x1="170" y1="210" x2="170" y2="250" stroke-width="1" stroke-dasharray="4 4" />
+
+        <!-- Bar representation at bottom -->
+        <rect class="fib-bar fib-bar--code" x="10" y="260" width="348" height="48" rx="6" />
+        <rect class="fib-bar fib-bar--llm" x="358" y="260" width="174" height="48" rx="6" />
+        <rect class="fib-bar fib-bar--human" x="532" y="260" width="58" height="48" rx="6" />
+
+        <text class="fib-bar-label" x="184" y="289" text-anchor="middle">Code & rules</text>
+        <text class="fib-bar-label" x="445" y="289" text-anchor="middle">Reasoning</text>
+        <text class="fib-bar-label" x="561" y="289" text-anchor="middle">Review</text>
+
+        <!-- Small fibonacci numbers -->
+        <text class="fib-num" x="106" y="198">8</text>
+        <text class="fib-num" x="261" y="124">5</text>
+        <text class="fib-num" x="239" y="198">3</text>
+        <text class="fib-num" x="298" y="198">2</text>
+        <text class="fib-num" x="290" y="152">1</text>
+      </svg>
     </div>
 
     <p class="reveal">
@@ -134,6 +158,47 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <p>The goal isn't to remove people from the process. It's to stop wasting them on the parts that don't need them.</p>
     </blockquote>
 
+    <h2 class="reveal">Latency is part of the design</h2>
+
+    <p class="reveal">
+      There's another reason the 60/30 split matters: speed. Deterministic steps
+      run in milliseconds. A 3-way match on an invoice is a database query. A
+      threshold check is a comparison. You can process thousands of these per
+      second without breaking a sweat.
+    </p>
+
+    <p class="reveal">
+      The LLM steps are the bottleneck. Even fast models add seconds per call,
+      and if your pipeline fires multiple calls per item (an assessment, an email
+      draft, a routing decision), that adds up. In a pipeline processing hundreds
+      or thousands of items per cycle, the model steps are where you feel the
+      latency.
+    </p>
+
+    <p class="reveal">
+      This is why the ratio protects you. If 60% of your pipeline is deterministic,
+      most of the work is done before the model even gets involved. You're only
+      sending the model the things that actually need it, and the fewer calls you
+      make, the faster the whole cycle completes.
+    </p>
+
+    <p class="reveal">
+      And the models are getting faster. Mercury 2, a diffusion-based model, runs
+      at over 1,000 tokens per second with 1.7 seconds end-to-end latency. Claude
+      Haiku 4.5 sits at 5 seconds. GPT-5 Mini at around 4.5. For the kind of
+      structured reasoning an enterprise pipeline needs (classify this issue, pick
+      an action, write a short email), these smaller fast models are more than
+      enough. You don't need a frontier reasoning model to decide whether a price
+      variance is the vendor's fault.
+    </p>
+
+    <p class="reveal">
+      So the play is: keep the pipeline mostly deterministic for throughput and
+      reliability, then pick a fast model for the 30% that needs intelligence. The
+      result is a pipeline that processes a full cycle in minutes, not hours, and
+      doesn't cost a fortune in API calls.
+    </p>
+
     <h2 class="reveal">What happens when the ratio is off</h2>
 
     <p class="reveal">
@@ -184,12 +249,11 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <h2 class="reveal">Credit where it's due</h2>
 
     <p class="reveal">
-      This idea crystallized for me after conversations with
+      The Fibonacci Pipeline concept comes from
       <a href="https://www.skool.com/ai-automation-society/about" target="_blank" class="inline-link">Nate Herk</a>
-      and the AI Automation Society community. The framing of agents as participants
-      in a larger flow, not replacements for the flow, is something I keep coming
-      back to when designing systems for enterprise clients. The Fibonacci name is
-      mine, the intuition behind the ratio is shared.
+      and his AI Automation Society community. The framing of agents as participants
+      in a larger flow, not replacements for the flow, clicked for me immediately.
+      It's how I think about every system I build for enterprise clients now.
     </p>
 
     <div class="article-footer reveal">
@@ -250,17 +314,53 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .article blockquote { border-left: 3px solid var(--blockquote-border); background: var(--blockquote-bg); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 8px 8px 0; }
   .article blockquote p { font-style: italic; color: var(--text-hi); margin-bottom: 0; font-size: 0.92rem; }
 
-  .ratio-visual { margin: 2rem 0; }
-  .ratio-bar { display: flex; border-radius: 10px; overflow: hidden; height: 72px; border: 1px solid var(--border); }
-  .ratio-segment { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; transition: all 0.3s; }
-  .ratio-segment--code { background: var(--bg-card); border-right: 1px solid var(--border); }
-  .ratio-segment--llm { background: var(--ember-glow); border-right: 1px solid var(--border); }
-  .ratio-segment--human { background: var(--gold-dim); }
-  .ratio-pct { font-size: 1.1rem; font-weight: 600; color: var(--text-hi); }
-  .ratio-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-lo); }
-  .ratio-segment--code .ratio-pct { color: var(--ash); }
-  .ratio-segment--llm .ratio-pct { color: var(--ember); }
-  .ratio-segment--human .ratio-pct { color: var(--gold); }
+  .fibonacci-illustration { margin: 2.5rem 0; display: flex; justify-content: center; }
+  .fib-spiral { width: 100%; max-width: 600px; }
+
+  .fib-rect { stroke-width: 1.5; fill-opacity: 0.08; }
+  .fib-rect--1 { stroke: var(--ash); fill: var(--ash); }
+  .fib-rect--2 { stroke: var(--ember); fill: var(--ember); }
+  .fib-rect--3 { stroke: var(--gold); fill: var(--gold); }
+  .fib-rect--4 { stroke: var(--ash); fill: var(--ash); fill-opacity: 0.05; }
+  .fib-rect--5 { stroke: var(--ember); fill: var(--ember); fill-opacity: 0.05; }
+
+  .fib-path { stroke: var(--ember); stroke-dasharray: 500; stroke-dashoffset: 500; animation: fib-draw 2.5s ease forwards; }
+  @keyframes fib-draw { to { stroke-dashoffset: 0; } }
+
+  .fib-label { font-size: 18px; font-weight: 600; font-family: 'Iosevka', monospace; }
+  .fib-label--code { fill: var(--ash); }
+  .fib-label--llm { fill: var(--ember); }
+  .fib-label--human { fill: var(--gold); }
+
+  .fib-sublabel { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .fib-sublabel--code { fill: var(--text-lo); }
+  .fib-sublabel--llm { fill: var(--text-lo); }
+  .fib-sublabel--human { fill: var(--text-lo); }
+
+  .fib-num { font-size: 10px; fill: var(--text-lo); font-family: 'Iosevka', monospace; text-anchor: middle; opacity: 0.5; }
+
+  .fib-connector { stroke: var(--border); }
+
+  .fib-bar { stroke: none; }
+  .fib-bar--code { fill: var(--ash); fill-opacity: 0.15; }
+  .fib-bar--llm { fill: var(--ember); fill-opacity: 0.15; }
+  .fib-bar--human { fill: var(--gold); fill-opacity: 0.15; }
+
+  .fib-bar-label { font-size: 11px; fill: var(--text); font-family: 'Iosevka', monospace; text-anchor: middle; }
+
+  /* Staggered fade-in for rectangles */
+  .fib-rect { opacity: 0; animation: fib-fade 0.5s ease forwards; }
+  .fib-rect--1 { animation-delay: 0.2s; }
+  .fib-rect--2 { animation-delay: 0.5s; }
+  .fib-rect--3 { animation-delay: 0.8s; }
+  .fib-rect--4 { animation-delay: 1.0s; }
+  .fib-rect--5 { animation-delay: 1.2s; }
+  @keyframes fib-fade { to { opacity: 1; } }
+
+  /* Bars fade in after spiral */
+  .fib-bar { opacity: 0; animation: fib-fade 0.6s ease forwards; animation-delay: 1.8s; }
+  .fib-bar-label { opacity: 0; animation: fib-fade 0.6s ease forwards; animation-delay: 2.0s; }
+  .fib-connector { opacity: 0; animation: fib-fade 0.4s ease forwards; animation-delay: 1.6s; }
 
   .inline-link { color: var(--ember); text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s; }
   .inline-link:hover { color: var(--gold); }
