@@ -98,6 +98,23 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
 
     <p class="reveal">
+      Notice that layers 1 and 2 are entirely deterministic. No model involved.
+      The 3-way match is arithmetic, issue detection is rules against structured
+      data. You don't need an LLM to check whether billed quantity exceeds received
+      quantity, and you really don't want one: that's exactly the kind of step where
+      a hallucination would be catastrophic. The model only kicks in at layer 3,
+      where you actually need reasoning: weighing materiality, classifying
+      responsibility, picking the right action from context.
+    </p>
+
+    <p class="reveal">
+      This is a general principle for building agents in finance. Embed the model
+      in a deterministic pipeline. Let code handle what code handles well, and
+      reserve inference for the steps that genuinely need judgment. The pipeline
+      stays reliable. The model does what it's good at.
+    </p>
+
+    <p class="reveal">
       Layer three is where it gets interesting. A price mismatch is the
       <em>vendor's fault</em>, so we ask them to fix it. A cost center blowing its
       budget is <em>our fault</em>, so we go to the CC owner and the vendor never
