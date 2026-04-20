@@ -63,24 +63,61 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <h2 class="reveal">60 / 30 / 10</h2>
 
     <div class="fibonacci-illustration reveal">
-      <svg class="fib-spiral" viewBox="0 0 580 240" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- Three proportional blocks: 6 : 3 : 1 -->
-        <rect class="fib-rect fib-rect--code" x="10" y="10" width="336" height="180" rx="8" />
-        <rect class="fib-rect fib-rect--llm" x="354" y="10" width="168" height="180" rx="8" />
-        <rect class="fib-rect fib-rect--human" x="530" y="10" width="42" height="180" rx="6" />
+      <svg class="fib-svg" viewBox="0 0 720 320" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Fibonacci ratio pipeline: 60 percent deterministic, 30 percent LLM, 10 percent human">
 
-        <!-- Spiral across all three -->
-        <path class="fib-path" d="M 10 190 Q 10 10 178 10 Q 346 10 346 100 Q 346 190 290 190 Q 240 190 268 140 Q 290 100 310 120" stroke-width="2.5" stroke-linecap="round" />
+        <!-- Decorative golden spiral in top-left corner -->
+        <g class="fib-spiral-group">
+          <path class="fib-spiral-path"
+                d="M 20 90
+                   A 60 60 0 0 1 80 30
+                   A 40 40 0 0 1 120 70
+                   A 25 25 0 0 1 95 95
+                   A 15 15 0 0 1 80 80
+                   A 9 9 0 0 1 89 71
+                   A 5 5 0 0 1 94 76"
+                stroke-width="1.8"
+                stroke-linecap="round" />
+        </g>
 
-        <!-- Labels -->
-        <text class="fib-label fib-label--code" x="178" y="90" text-anchor="middle">60%</text>
-        <text class="fib-sublabel" x="178" y="112" text-anchor="middle">Deterministic</text>
+        <!-- Caption for spiral -->
+        <text class="fib-caption" x="140" y="60">THE GOLDEN RATIO</text>
+        <text class="fib-caption-sub" x="140" y="78">applied to pipeline design</text>
+        <text class="fib-caption-sub" x="140" y="94">roughly 60:30:10</text>
 
-        <text class="fib-label fib-label--llm" x="438" y="90" text-anchor="middle">30%</text>
-        <text class="fib-sublabel" x="438" y="112" text-anchor="middle">LLM</text>
+        <!-- Subtle divider -->
+        <line class="fib-divider" x1="20" y1="140" x2="700" y2="140" stroke-width="1" stroke-dasharray="2 6" />
 
-        <text class="fib-label fib-label--human" x="551" y="90" text-anchor="middle">10</text>
-        <text class="fib-sublabel" x="551" y="106" text-anchor="middle">%</text>
+        <!-- Main ratio bar -->
+        <g class="fib-bar-group" transform="translate(20, 170)">
+          <!-- Outer border -->
+          <rect class="fib-bar-border" x="0" y="0" width="680" height="110" rx="10" />
+
+          <!-- 60% Deterministic -->
+          <g class="fib-segment fib-segment--code">
+            <rect class="fib-segment-fill" x="1" y="1" width="406" height="108" />
+            <rect class="fib-segment-accent" x="1" y="101" width="406" height="8" />
+            <text class="fib-pct fib-pct--code" x="30" y="50">60<tspan class="fib-pct-sym">%</tspan></text>
+            <text class="fib-seg-label" x="30" y="74">DETERMINISTIC</text>
+            <text class="fib-seg-desc" x="30" y="92">code, rules, arithmetic</text>
+          </g>
+
+          <!-- 30% LLM -->
+          <g class="fib-segment fib-segment--llm">
+            <rect class="fib-segment-fill" x="408" y="1" width="202" height="108" />
+            <rect class="fib-segment-accent" x="408" y="101" width="202" height="8" />
+            <text class="fib-pct fib-pct--llm" x="428" y="50">30<tspan class="fib-pct-sym">%</tspan></text>
+            <text class="fib-seg-label" x="428" y="74">LLM</text>
+            <text class="fib-seg-desc" x="428" y="92">reasoning, drafting</text>
+          </g>
+
+          <!-- 10% Human -->
+          <g class="fib-segment fib-segment--human">
+            <rect class="fib-segment-fill" x="611" y="1" width="68" height="108" />
+            <rect class="fib-segment-accent" x="611" y="101" width="68" height="8" />
+            <text class="fib-pct fib-pct--human" x="618" y="50">10<tspan class="fib-pct-sym">%</tspan></text>
+            <text class="fib-seg-label fib-seg-label--tight" x="618" y="74">HUMAN</text>
+          </g>
+        </g>
       </svg>
     </div>
 
@@ -296,23 +333,115 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .article blockquote p { font-style: italic; color: var(--text-hi); margin-bottom: 0; font-size: 0.92rem; }
 
   .fibonacci-illustration { margin: 2.5rem 0; display: flex; justify-content: center; }
-  .fib-spiral { width: 100%; max-width: 580px; }
+  .fib-svg { width: 100%; max-width: 720px; }
 
-  .fib-rect { stroke-width: 1.5; fill-opacity: 0.1; opacity: 0; animation: fib-fade 0.6s ease forwards; }
-  .fib-rect--code { stroke: var(--ash); fill: var(--ash); animation-delay: 0.2s; }
-  .fib-rect--llm { stroke: var(--ember); fill: var(--ember); animation-delay: 0.5s; }
-  .fib-rect--human { stroke: var(--gold); fill: var(--gold); animation-delay: 0.8s; }
+  /* Decorative golden spiral */
+  .fib-spiral-path {
+    stroke: var(--ember);
+    fill: none;
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: fib-spiral-draw 2.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: 0.3s;
+  }
+  @keyframes fib-spiral-draw { to { stroke-dashoffset: 0; } }
+
+  /* Captions next to spiral */
+  .fib-caption {
+    font-family: 'Iosevka', monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    fill: var(--text-lo);
+    opacity: 0;
+    animation: fib-fade 0.8s ease forwards;
+    animation-delay: 1.4s;
+  }
+  .fib-caption-sub {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 12px;
+    fill: var(--text);
+    font-style: italic;
+    opacity: 0;
+    animation: fib-fade 0.8s ease forwards;
+  }
+  .fib-caption-sub:nth-of-type(1) { animation-delay: 1.7s; }
+  .fib-caption-sub:nth-of-type(2) { animation-delay: 1.9s; }
   @keyframes fib-fade { to { opacity: 1; } }
 
-  .fib-path { stroke: var(--ember); stroke-dasharray: 500; stroke-dashoffset: 500; animation: fib-draw 2s ease forwards; animation-delay: 1s; }
-  @keyframes fib-draw { to { stroke-dashoffset: 0; } }
+  /* Divider */
+  .fib-divider {
+    stroke: var(--border);
+    opacity: 0;
+    animation: fib-fade 0.6s ease forwards;
+    animation-delay: 2.1s;
+  }
 
-  .fib-label { font-size: 22px; font-weight: 600; font-family: 'Iosevka', monospace; }
-  .fib-label--code { fill: var(--ash); }
-  .fib-label--llm { fill: var(--ember); }
-  .fib-label--human { fill: var(--gold); }
+  /* Main ratio bar */
+  .fib-bar-border {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 1;
+  }
 
-  .fib-sublabel { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; fill: var(--text-lo); }
+  .fib-segment {
+    opacity: 0;
+    animation: fib-segment-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .fib-segment--code { animation-delay: 2.3s; }
+  .fib-segment--llm { animation-delay: 2.5s; }
+  .fib-segment--human { animation-delay: 2.7s; }
+  @keyframes fib-segment-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fib-segment-fill { fill-opacity: 0.07; }
+  .fib-segment-accent { fill-opacity: 0.55; }
+
+  .fib-segment--code .fib-segment-fill,
+  .fib-segment--code .fib-segment-accent { fill: var(--ash); }
+  .fib-segment--llm .fib-segment-fill,
+  .fib-segment--llm .fib-segment-accent { fill: var(--ember); }
+  .fib-segment--human .fib-segment-fill,
+  .fib-segment--human .fib-segment-accent { fill: var(--gold); }
+
+  .fib-pct {
+    font-family: 'Iosevka', monospace;
+    font-size: 32px;
+    font-weight: 600;
+  }
+  .fib-pct--code { fill: var(--ash); }
+  .fib-pct--llm { fill: var(--ember); }
+  .fib-pct--human { fill: var(--gold); }
+  .fib-pct-sym {
+    font-size: 18px;
+    opacity: 0.6;
+  }
+
+  .fib-seg-label {
+    font-family: 'Iosevka', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    fill: var(--text-hi);
+    font-weight: 500;
+  }
+  .fib-seg-label--tight {
+    letter-spacing: 0.1em;
+  }
+
+  .fib-seg-desc {
+    font-family: 'Libre Baskerville', serif;
+    font-style: italic;
+    font-size: 11px;
+    fill: var(--text-lo);
+  }
+
+  @media (max-width: 600px) {
+    .fib-pct { font-size: 24px; }
+    .fib-pct-sym { font-size: 14px; }
+    .fib-seg-label { font-size: 10px; }
+    .fib-seg-desc { display: none; }
+  }
 
   .inline-link { color: var(--ember); text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s; }
   .inline-link:hover { color: var(--gold); }
