@@ -58,15 +58,15 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       much is human. There's a rough answer that holds up in practice.
     </p>
 
-    <h2 class="reveal">60 / 30 / 10</h2>
+    <h2 class="reveal">Process ratio</h2>
 
     <div class="fibonacci-illustration reveal">
       <svg class="fib-svg" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="60 percent deterministic, 30 percent LLM, 10 percent human">
 
-        <!-- Three squares in Fibonacci arrangement (tiled, sizes 240, 150, 90) -->
+        <!-- Three regions: 60% big square, 30% square, 10% rectangle filling the gap -->
         <rect class="fib-box fib-box--code" x="5" y="5" width="240" height="240" rx="4" />
         <rect class="fib-box fib-box--llm" x="245" y="5" width="150" height="150" rx="4" />
-        <rect class="fib-box fib-box--human" x="305" y="155" width="90" height="90" rx="3" />
+        <rect class="fib-box fib-box--human" x="245" y="155" width="150" height="90" rx="3" />
 
         <!-- Fibonacci spiral: proper quarter arcs centered at inner corners -->
         <path class="fib-spiral-path"
@@ -82,8 +82,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
         <text class="fib-pct fib-pct--llm" x="320" y="85" text-anchor="middle">30<tspan class="fib-pct-sym">%</tspan></text>
         <text class="fib-seg-label" x="320" y="107" text-anchor="middle">LLM</text>
 
-        <text class="fib-pct fib-pct--human" x="350" y="205" text-anchor="middle">10<tspan class="fib-pct-sym">%</tspan></text>
-        <text class="fib-seg-label fib-seg-label--small" x="350" y="222" text-anchor="middle">HUMAN</text>
+        <text class="fib-pct fib-pct--human" x="320" y="200" text-anchor="middle">10<tspan class="fib-pct-sym">%</tspan></text>
+        <text class="fib-seg-label" x="320" y="222" text-anchor="middle">HUMAN</text>
       </svg>
     </div>
 
@@ -107,7 +107,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       hits go. Or stops it and says why.
     </p>
 
-    <h2 class="reveal">Why this ratio works</h2>
+    <h2 class="reveal">But why?</h2>
 
     <p class="reveal">
       Each slice plays to its strength.
@@ -138,41 +138,43 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <p>Nobody's removing humans from the process. You're giving them back the parts that actually need a person.</p>
     </blockquote>
 
-    <h2 class="reveal">Latency is part of the design</h2>
+    <h2 class="reveal">Deal with latency</h2>
 
     <p class="reveal">
-      There's another reason the split works: speed. Deterministic steps run in
-      milliseconds. A 3-way match is a DB query. A threshold check is a comparison.
-      You can process thousands of these per second.
+      Speed matters. The pipeline has to complete a cycle in reasonable time, or
+      you haven't really automated anything. Deterministic steps run in
+      milliseconds: a DB query, a threshold check, a regex. Thousands per second,
+      no sweat.
     </p>
 
     <p class="reveal">
-      LLM calls are the bottleneck. Even fast models add seconds per call, and if
-      your pipeline fires multiple calls per item (an assessment, an email, a
-      routing decision), it adds up fast. In a pipeline chewing through thousands
-      of items, the model steps are where latency lives.
+      LLM calls are where latency lives. Even fast models add seconds per call,
+      and pipelines usually fire multiple calls per item: an assessment, an email,
+      a routing decision. Multiply by thousands of items per cycle and that's the
+      difference between a run that finishes overnight and one that finishes in
+      coffee-break time.
     </p>
 
     <p class="reveal">
-      That's why the ratio protects you. If 60% is deterministic, most of the work
-      happens before the model gets involved. You only send the model what actually
-      needs intelligence. Fewer calls, faster cycles.
+      Good news: fast models exist. Claude Haiku 4.5 sits around 5 seconds
+      end-to-end. GPT-5 Mini at 4.5. For the kind of structured reasoning an
+      enterprise pipeline needs (classify this, pick an action, draft a short
+      email), a fast small model is plenty. You don't need a frontier reasoning
+      model to decide if a price variance is the vendor's fault.
     </p>
 
     <p class="reveal">
-      And the models keep getting faster. Mercury 2, a diffusion-based model, runs
-      at over 1,000 tokens per second with 1.7 second end-to-end latency. Claude
-      Haiku 4.5 sits around 5 seconds. GPT-5 Mini at 4.5. For the kind of
-      structured reasoning an enterprise pipeline needs (classify this issue, pick
-      an action, draft a short email), a fast small model is more than enough. You
-      don't need a frontier reasoning model to decide whether a price variance is
-      the vendor's fault.
+      Better news: diffusion-based models are a new option and they're a step
+      change. Mercury 2 runs at over 1,000 tokens per second with 1.7 second
+      end-to-end latency. That's roughly 3x faster than Haiku and 10x faster than
+      reasoning models like Gemini 3 Flash. For a pipeline firing thousands of
+      calls per cycle, that compounds: a run that used to take hours now finishes
+      in minutes.
     </p>
 
     <p class="reveal">
-      Keep the pipeline deterministic for throughput. Use a fast model for the 30%
-      that needs brains. Full cycle runs in minutes, not hours, without a fortune
-      in API calls.
+      Keep 60% of the pipeline deterministic. Pick a fast model for the 30%.
+      The cycle runs reasonably.
     </p>
 
     <h2 class="reveal">When the ratio is off</h2>
@@ -225,9 +227,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <p class="reveal">
       The Fibonacci Pipeline idea comes from
       <a href="https://www.skool.com/ai-automation-society/about" target="_blank" class="inline-link">Nate Herk</a>
-      and his AI Automation Society community. Framing agents as pieces of a
-      larger flow, not replacements for it, clicked for me immediately. It's how
-      I think about every system I build for enterprise clients now.
+      and his AI Automation Society community.
     </p>
 
     <div class="article-footer reveal">
