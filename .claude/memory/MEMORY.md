@@ -2,3 +2,4 @@
 - [Design choice](feedback_design.md) — Terminal Ember palette chosen for stubborncoder.github.io
 - [Workflow](feedback_workflow.md) — Always let David review blog posts before committing/pushing
 - [Blog tone](feedback_blog_tone.md) — Write for CFOs who know finance; show value, don't explain basics
+- [Infrastructure opsec](feedback_infrastructure_opsec.md) — Don't name where inference runs in public content; keep deployment generic (BYOM framing)

@@ -179,24 +179,21 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <h2 class="reveal">The inference bill</h2>
 
     <p class="reveal">
-      An AP cycle fires more model calls than a collections one. An assessment,
-      maybe a vendor email, maybe an internal memo, a routing tree, for every
-      invoice. Multiply that by a few thousand invoices a month in a real company
-      and cloud API costs stop being a rounding error.
+      An AP cycle fires a lot of model calls. One assessment per invoice, plus
+      an email or a memo when the action needs it, plus a routing tree, plus a
+      CFO summary at the end. Thousands of invoices a month and calling a
+      frontier API for every one of them stops being a rounding error.
     </p>
 
     <p class="reveal">
-      That's why this one runs inference locally. On-prem hardware amortizes a
-      fixed cost instead of paying per call, and the math holds up at enterprise
-      volume. As a bonus, supplier-specific pricing never leaves the network,
-      which matters more for AP than AR.
+      The pipeline uses a small, fast model instead. Classifying an issue or
+      drafting a short email doesn't need a reasoning model, a lean one does
+      the job at a fraction of the cost.
     </p>
 
     <p class="reveal">
-      It's a design choice, not a rule. Swap in a top-tier cloud model if you'd
-      rather pay for latency and quality and give up some data-residency
-      flexibility. The pipeline just needs structured output, it doesn't care
-      where it comes from.
+      And the pipeline is agnostic about where it runs. Bring your own model,
+      deploy it wherever fits your setup. It just needs structured output back.
     </p>
 
     <h2 class="reveal">Beyond AP</h2>

@@ -138,20 +138,23 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       tables. No report builder. Just ask.
     </p>
 
-    <h2 class="reveal">Why local inference</h2>
+    <h2 class="reveal">The inference bill</h2>
 
     <p class="reveal">
       The agent runs dozens of cycles per day, each one triggering multiple LLM calls: risk
-      assessments, email drafts, call scripts, summaries. At that volume, cloud API costs
-      add up fast. Running the model on local hardware makes the economics work, and as a
-      bonus, sensitive financial data never leaves the network.
+      assessments, email drafts, call scripts, summaries. At that volume, calling a frontier
+      API every time stops being a rounding error.
     </p>
 
     <p class="reveal">
-      That said, this is a design choice for this specific use case. Nothing stops you from
-      pointing the same architecture at a state-of-the-art cloud model if latency and cost
-      aren't a concern. The agent doesn't care where the intelligence comes from, it just
-      needs structured output it can act on.
+      The pipeline uses a small, fast model instead. Weighing a risk level or drafting a
+      reminder email doesn't need a reasoning model, a lean one does the job at a fraction
+      of the cost.
+    </p>
+
+    <p class="reveal">
+      It's also agnostic about where the model runs. Bring your own, deploy it wherever
+      fits your setup. It just needs structured output back.
     </p>
 
     <h2 class="reveal">Beyond collections</h2>

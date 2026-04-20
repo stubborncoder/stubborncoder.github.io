@@ -173,13 +173,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </p>
 
     <p class="reveal">
-      Local inference is a valid option too, and for enterprise pipelines it
-      often should be (data stays inside the perimeter, no per-call fees). But
-      latency there is a function of the infrastructure you put behind it:
-      on-prem GPUs, a dedicated cloud box, whatever you've provisioned. With the
-      right hardware you match or beat a hosted API. With the wrong hardware,
-      the cycle time drags. The 60/30/10 principle works either way, it's the
-      provisioning that determines how fast you actually get through a cycle.
+      Running your own model is a valid option too, and for enterprise pipelines
+      it often should be (no per-call fees, data residency stays under your
+      control). Latency there depends on how you provision it. Good
+      infrastructure matches or beats a hosted API. Undersized infrastructure
+      drags the cycle. The 60/30/10 principle works either way, the provisioning
+      is what determines how fast you actually get through a cycle.
     </p>
 
     <p class="reveal">
