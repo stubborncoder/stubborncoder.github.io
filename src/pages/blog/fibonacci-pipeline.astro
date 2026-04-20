@@ -135,7 +135,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </p>
 
     <blockquote class="reveal">
-      <p>Nobody's removing humans from the process. You're giving them back the parts that actually need a person.</p>
+      <p>The human is still who signs the process. They control the model's output. They carry the responsibility.</p>
     </blockquote>
 
     <h2 class="reveal">Deal with latency</h2>
@@ -170,6 +170,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       reasoning models like Gemini 3 Flash. For a pipeline firing thousands of
       calls per cycle, that compounds: a run that used to take hours now finishes
       in minutes.
+    </p>
+
+    <p class="reveal">
+      Local inference is a valid option too, and for enterprise pipelines it
+      often should be (data stays inside the perimeter, no per-call fees). But
+      latency there is a function of the infrastructure you put behind it:
+      on-prem GPUs, a dedicated cloud box, whatever you've provisioned. With the
+      right hardware you match or beat a hosted API. With the wrong hardware,
+      the cycle time drags. The 60/30/10 principle works either way, it's the
+      provisioning that determines how fast you actually get through a cycle.
     </p>
 
     <p class="reveal">
