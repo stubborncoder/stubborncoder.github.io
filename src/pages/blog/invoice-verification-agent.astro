@@ -176,21 +176,27 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       The actual thing, not a summary. That's what holds up in an audit.
     </p>
 
-    <h2 class="reveal">Why local inference</h2>
+    <h2 class="reveal">The inference bill</h2>
 
     <p class="reveal">
       An AP cycle fires more model calls than a collections one. An assessment,
       maybe a vendor email, maybe an internal memo, a routing tree, for every
-      invoice. Multiply that by a few thousand invoices a month and cloud costs
-      stop being a rounding error. Local hardware keeps the math sane, and as a
-      bonus your supplier-specific pricing never leaves the network, which matters
-      more for AP than AR.
+      invoice. Multiply that by a few thousand invoices a month in a real company
+      and cloud API costs stop being a rounding error.
     </p>
 
     <p class="reveal">
-      This is a design choice, not a rule. Swap in a top-tier cloud model if you'd
-      rather pay for latency and quality and give up some data-residency flexibility.
-      The agent just needs structured output, it doesn't care where it comes from.
+      That's why this one runs inference locally. On-prem hardware amortizes a
+      fixed cost instead of paying per call, and the math holds up at enterprise
+      volume. As a bonus, supplier-specific pricing never leaves the network,
+      which matters more for AP than AR.
+    </p>
+
+    <p class="reveal">
+      It's a design choice, not a rule. Swap in a top-tier cloud model if you'd
+      rather pay for latency and quality and give up some data-residency
+      flexibility. The pipeline just needs structured output, it doesn't care
+      where it comes from.
     </p>
 
     <h2 class="reveal">Beyond AP</h2>
