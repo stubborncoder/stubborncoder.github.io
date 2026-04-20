@@ -209,9 +209,43 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       Intercompany matching. T&E policy. Same cycle, different rules.
     </p>
 
+    <h2 class="reveal">What's next</h2>
+
     <p class="reveal">
-      Next in the series: the payment agent. This one decides <em>what</em> to pay.
-      The next one decides <em>when</em>.
+      A look at where this is going. Four pipelines covering the working-capital
+      cycle inside the CFO's office:
+    </p>
+
+    <div class="roadmap reveal">
+      <div class="roadmap-row">
+        <span class="roadmap-step">Part 1</span>
+        <span class="roadmap-name">AR Collections</span>
+        <span class="roadmap-desc">decides when to collect.</span>
+      </div>
+      <div class="roadmap-row roadmap-row--current">
+        <span class="roadmap-step">Part 2</span>
+        <span class="roadmap-name">Invoice Verification <em>(this one)</em></span>
+        <span class="roadmap-desc">decides what to pay.</span>
+      </div>
+      <div class="roadmap-row">
+        <span class="roadmap-step">Part 3</span>
+        <span class="roadmap-name">Payment</span>
+        <span class="roadmap-desc">times each payment to capture early-payment discounts, then reports the flow back to the CFO team.</span>
+      </div>
+      <div class="roadmap-row">
+        <span class="roadmap-step">Part 4</span>
+        <span class="roadmap-name">EBS reader</span>
+        <span class="roadmap-desc">ingests bank statements and feeds transaction updates to the other pipelines.</span>
+      </div>
+    </div>
+
+    <p class="reveal">
+      Each one is useful on its own. Let's see whether they can be even more
+      useful together.
+    </p>
+
+    <p class="reveal">
+      Payment next. Then EBS.
     </p>
 
     <h2 class="reveal">See it work</h2>
@@ -307,6 +341,19 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .policy-action--warn { color: var(--ember); }
   .policy-action--critical { color: #c0503e; font-weight: 600; }
   .policy-desc { font-size: 0.78rem; color: var(--text); }
+
+  .roadmap { margin: 2rem 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .roadmap-row { display: grid; grid-template-columns: 70px 200px 1fr; gap: 1.25rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); align-items: baseline; }
+  .roadmap-row:last-child { border-bottom: none; }
+  .roadmap-row--current { background: var(--ember-glow); }
+  .roadmap-step { font-family: 'Iosevka', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); font-weight: 600; }
+  .roadmap-row--current .roadmap-step { color: var(--ember); }
+  .roadmap-name { font-family: 'Libre Baskerville', serif; font-size: 0.95rem; color: var(--text-hi); font-weight: 600; }
+  .roadmap-name em { color: var(--ember); font-style: italic; font-weight: 400; font-size: 0.85rem; }
+  .roadmap-desc { font-family: 'Libre Baskerville', serif; font-size: 0.85rem; color: var(--text); line-height: 1.6; }
+  @media (max-width: 768px) {
+    .roadmap-row { grid-template-columns: 1fr; gap: 0.3rem; }
+  }
 
   .takeaway { background: var(--bg-card); border: 1px solid var(--ember-border); border-radius: 10px; padding: 2rem; margin: 2.5rem 0; }
   .takeaway-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ember); font-weight: 600; margin-bottom: 1rem; }
