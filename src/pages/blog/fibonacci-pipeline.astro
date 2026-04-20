@@ -61,43 +61,29 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <h2 class="reveal">60 / 30 / 10</h2>
 
     <div class="fibonacci-illustration reveal">
-      <svg class="fib-svg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="60 percent deterministic, 30 percent LLM, 10 percent human">
+      <svg class="fib-svg" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="60 percent deterministic, 30 percent LLM, 10 percent human">
 
-        <!-- Three horizontal bands filling the square, heights proportional to 60:30:10 -->
-        <rect class="fib-band fib-band--code" x="0" y="0" width="400" height="240" />
-        <rect class="fib-band fib-band--llm" x="0" y="240" width="400" height="120" />
-        <rect class="fib-band fib-band--human" x="0" y="360" width="400" height="40" />
+        <!-- Three squares in Fibonacci arrangement (tiled, sizes 240, 150, 90) -->
+        <rect class="fib-box fib-box--code" x="5" y="5" width="240" height="240" rx="4" />
+        <rect class="fib-box fib-box--llm" x="245" y="5" width="150" height="150" rx="4" />
+        <rect class="fib-box fib-box--human" x="305" y="155" width="90" height="90" rx="3" />
 
-        <!-- Band dividers -->
-        <line class="fib-band-divider" x1="0" y1="240" x2="400" y2="240" stroke-width="1" />
-        <line class="fib-band-divider" x1="0" y1="360" x2="400" y2="360" stroke-width="1" />
+        <!-- Fibonacci spiral: proper quarter arcs centered at inner corners -->
+        <path class="fib-spiral-path"
+              d="M 5 245 A 240 240 0 0 1 245 5 A 150 150 0 0 1 395 155 A 90 90 0 0 1 305 245"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              fill="none" />
 
         <!-- Labels -->
-        <text class="fib-pct fib-pct--code" x="24" y="128">60<tspan class="fib-pct-sym">%</tspan></text>
-        <text class="fib-seg-label" x="24" y="152">DETERMINISTIC</text>
+        <text class="fib-pct fib-pct--code" x="125" y="130" text-anchor="middle">60<tspan class="fib-pct-sym">%</tspan></text>
+        <text class="fib-seg-label" x="125" y="154" text-anchor="middle">DETERMINISTIC</text>
 
-        <text class="fib-pct fib-pct--llm" x="24" y="290">30<tspan class="fib-pct-sym">%</tspan></text>
-        <text class="fib-seg-label" x="24" y="314">LLM</text>
+        <text class="fib-pct fib-pct--llm" x="320" y="85" text-anchor="middle">30<tspan class="fib-pct-sym">%</tspan></text>
+        <text class="fib-seg-label" x="320" y="107" text-anchor="middle">LLM</text>
 
-        <text class="fib-pct fib-pct--human" x="24" y="388">10<tspan class="fib-pct-sym">%</tspan></text>
-        <text class="fib-seg-label" x="92" y="388">HUMAN</text>
-
-        <!-- Fibonacci spiral, overlaid as golden ratio reference (u = 30, sequence 1,1,2,3,5,8) -->
-        <g class="fib-spiral-group" transform="translate(35, 80)">
-          <path class="fib-spiral-path"
-                d="M 0 240
-                   A 240 240 0 0 1 240 0
-                   A 150 150 0 0 1 330 150
-                   A 90 90 0 0 1 240 240
-                   A 60 60 0 0 1 180 180
-                   A 30 30 0 0 1 210 180"
-                stroke-width="2"
-                stroke-linecap="round"
-                fill="none" />
-        </g>
-
-        <!-- Canvas border -->
-        <rect class="fib-canvas-border" x="0.5" y="0.5" width="399" height="399" rx="6" fill="none" stroke-width="1" />
+        <text class="fib-pct fib-pct--human" x="350" y="205" text-anchor="middle">10<tspan class="fib-pct-sym">%</tspan></text>
+        <text class="fib-seg-label fib-seg-label--small" x="350" y="222" text-anchor="middle">HUMAN</text>
       </svg>
     </div>
 
@@ -303,50 +289,45 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .article blockquote p { font-style: italic; color: var(--text-hi); margin-bottom: 0; font-size: 0.92rem; }
 
   .fibonacci-illustration { margin: 2.5rem 0; display: flex; justify-content: center; }
-  .fib-svg { width: 100%; max-width: 420px; aspect-ratio: 1 / 1; }
+  .fib-svg { width: 100%; max-width: 560px; }
 
-  /* Band fills */
-  .fib-band { fill-opacity: 0.12; }
-  .fib-band--code { fill: var(--ash); }
-  .fib-band--llm { fill: var(--ember); }
-  .fib-band--human { fill: var(--gold); }
-
-  /* Band dividers */
-  .fib-band-divider { stroke: var(--border); }
-
-  /* Canvas border */
-  .fib-canvas-border { stroke: var(--border); }
+  /* Square fills */
+  .fib-box { fill-opacity: 0.1; stroke-width: 1.5; }
+  .fib-box--code { fill: var(--ash); stroke: var(--ash); }
+  .fib-box--llm { fill: var(--ember); stroke: var(--ember); }
+  .fib-box--human { fill: var(--gold); stroke: var(--gold); }
 
   /* Labels */
   .fib-pct {
     font-family: 'Iosevka', monospace;
-    font-size: 44px;
+    font-size: 36px;
     font-weight: 600;
   }
   .fib-pct--code { fill: var(--ash); }
   .fib-pct--llm { fill: var(--ember); }
   .fib-pct--human { fill: var(--gold); }
   .fib-pct-sym {
-    font-size: 22px;
+    font-size: 18px;
     opacity: 0.6;
   }
 
   .fib-seg-label {
     font-family: 'Iosevka', monospace;
-    font-size: 12px;
+    font-size: 11px;
     letter-spacing: 0.2em;
     fill: var(--text-hi);
     font-weight: 500;
   }
+  .fib-seg-label--small { font-size: 9px; letter-spacing: 0.15em; }
 
   /* Fibonacci spiral overlay */
   .fib-spiral-path {
     stroke: var(--ember);
     stroke-dasharray: 1400;
     stroke-dashoffset: 1400;
-    animation: fib-spiral-draw 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: fib-spiral-draw 2.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     animation-delay: 0.4s;
-    opacity: 0.85;
+    opacity: 0.9;
   }
   @keyframes fib-spiral-draw { to { stroke-dashoffset: 0; } }
 
