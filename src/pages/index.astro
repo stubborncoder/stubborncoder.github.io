@@ -114,7 +114,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <div class="section-line"></div>
     </div>
 
-    <div class="project-item reveal">
+    <a href="https://collections.stubborncoder.cloud/" target="_blank" class="project-item reveal">
       <div>
         <h3>AR Collections Agent</h3>
         <p>
@@ -130,11 +130,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="project-side">
         <span>2026</span>
-        <a href="https://collections.stubborncoder.cloud/" target="_blank" style="font-size: 0.68rem; color: var(--ember);">Live Demo &#8594;</a>
+        <span class="project-link project-link--ember">Live Demo &#8594;</span>
       </div>
-    </div>
+    </a>
 
-    <div class="project-item reveal">
+    <a href="https://invoice-verification.stubborncoder.cloud/" target="_blank" class="project-item reveal">
       <div>
         <h3>Invoice Verification Agent</h3>
         <p>
@@ -151,11 +151,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="project-side">
         <span>2026</span>
-        <a href="https://invoice-verification.stubborncoder.cloud/" target="_blank" style="font-size: 0.68rem; color: var(--ember);">Live Demo &#8594;</a>
+        <span class="project-link project-link--ember">Live Demo &#8594;</span>
       </div>
-    </div>
+    </a>
 
-    <div class="project-item reveal">
+    <a href="https://vdocs.ai/" target="_blank" class="project-item reveal">
       <div>
         <h3>vDocs</h3>
         <p>
@@ -171,9 +171,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="project-side">
         <span>2026</span>
-        <a href="https://vdocs.ai/" target="_blank" style="font-size: 0.68rem; color: var(--ember);">vdocs.ai &#8594;</a>
+        <span class="project-link project-link--ember">vdocs.ai &#8594;</span>
       </div>
-    </div>
+    </a>
 
     <div class="project-item reveal">
       <div>
@@ -195,7 +195,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </div>
 
-    <div class="project-item reveal">
+    <a href="https://github.com/stubborncoder/langchain-hana-cache" target="_blank" class="project-item reveal">
       <div>
         <h3>langchain-hana-cache</h3>
         <p>
@@ -211,11 +211,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="project-side">
         <span>2026</span>
-        <a href="https://github.com/stubborncoder/langchain-hana-cache" target="_blank" style="font-size: 0.68rem; color: var(--ash);">GitHub &#8594;</a>
+        <span class="project-link project-link--ash">GitHub &#8594;</span>
       </div>
-    </div>
+    </a>
 
-    <div class="project-item reveal">
+    <a href="https://github.com/stubborncoder/langchain-hana-retriever" target="_blank" class="project-item reveal">
       <div>
         <h3>langchain-hana-retriever</h3>
         <p>
@@ -230,11 +230,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="project-side">
         <span>2026</span>
-        <a href="https://github.com/stubborncoder/langchain-hana-retriever" target="_blank" style="font-size: 0.68rem; color: var(--ash);">GitHub &#8594;</a>
+        <span class="project-link project-link--ash">GitHub &#8594;</span>
       </div>
-    </div>
+    </a>
 
-    <div class="project-item reveal">
+    <a href="https://github.com/stubborncoder/langgraph-checkpoint-hana" target="_blank" class="project-item reveal">
       <div>
         <h3>langgraph-checkpoint-hana</h3>
         <p>
@@ -250,9 +250,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
       <div class="project-side">
         <span>2026</span>
-        <a href="https://github.com/stubborncoder/langgraph-checkpoint-hana" target="_blank" style="font-size: 0.68rem; color: var(--ash);">GitHub &#8594;</a>
+        <span class="project-link project-link--ash">GitHub &#8594;</span>
       </div>
-    </div>
+    </a>
 
 
   </section>
@@ -369,9 +369,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     border-top: 1px solid var(--border); padding: 2.5rem 0;
     display: grid; grid-template-columns: 1fr auto;
     gap: 2rem; cursor: pointer; transition: all 0.25s;
+    text-decoration: none; color: inherit;
   }
   .project-item:hover { padding-left: 1rem; }
   .project-item:hover h3 { color: var(--ember); }
+
+  .project-link {
+    font-size: 0.68rem; transition: color 0.2s;
+  }
+  .project-link--ember { color: var(--ember); }
+  .project-link--ash { color: var(--ash); }
+  .project-item:hover .project-link--ash { color: var(--ember); }
 
   .project-item h3 {
     font-family: 'Libre Baskerville', serif;
