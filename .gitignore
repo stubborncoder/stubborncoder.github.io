@@ -23,5 +23,11 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+# vscode setting folder
+.vscode/
+
+# claude code local config and runtime files
+.claude/
+
 # design variants (prototypes only)
 src/design-variants/
