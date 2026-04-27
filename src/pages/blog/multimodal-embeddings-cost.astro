@@ -1,0 +1,481 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Multimodal Embeddings on a Budget: 5 Tricks to Crush the Cost — ~/stubborncoder"
+  description="A follow-up on multimodal embeddings: five practical tricks we used to cut embedding bills by an order of magnitude without losing retrieval quality."
+  activeLink="writing"
+>
+
+<!-- Post Hero with blurred bg -->
+<section class="post-hero">
+  <div class="post-hero-bg"></div>
+  <div class="post-hero-overlay"></div>
+  <div class="post-hero-content wrap">
+    <a href="/#writing" class="post-back reveal">&#8592; Back to writing</a>
+
+    <div class="post-meta-top reveal">
+      <span>April 2026</span>
+      <span>&middot;</span>
+      <span>7 min read</span>
+      <span class="source-badge">LinkedIn</span>
+    </div>
+
+    <h1 class="reveal">Multimodal Embeddings on a Budget:<br>5 Tricks to <span class="em">Crush the Cost</span></h1>
+
+    <p class="post-subtitle reveal">
+      A follow-up to <a href="/blog/multimodal-embeddings" class="inline-link">One Model, One Vector Space</a>.
+      Multimodal retrieval is magic — and the bill at the end of the month will remind you it isn't free.
+      Here are the five tricks that actually moved the needle.
+    </p>
+
+    <div class="post-tags-row reveal">
+      <span class="post-tag post-tag--ember">Multimodal AI</span>
+      <span class="post-tag post-tag--gold">Cost Optimization</span>
+      <span class="post-tag">Vector Search</span>
+      <span class="post-tag">RAG</span>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <article class="article">
+
+    <h2 class="reveal">The hangover after the demo</h2>
+
+    <p class="reveal">
+      In the <a href="/blog/multimodal-embeddings" class="inline-link">previous post</a> I wrote about how
+      multimodal embeddings collapse text, images, and PDFs into one shared vector space. The architecture
+      studio loved it. The retrieval was sharper. The pipeline was simpler. Everyone was happy.
+    </p>
+
+    <p class="reveal">
+      Then we ran the math on rolling it out to ten more tenants and the smile went away.
+      Embedding everything — every screenshot, every floor plan, every page of every spec — adds up
+      fast. Multimodal vectors are bigger. Image and video tokens are pricier than text tokens.
+      Re-embedding when you upgrade the model multiplies the bill all over again.
+    </p>
+
+    <blockquote class="reveal">
+      <p>Multimodal retrieval isn't expensive because the model is bad. It's expensive because you embed too much, too often, and at full resolution.</p>
+    </blockquote>
+
+    <p class="reveal">
+      Below are the five tricks we ended up shipping. None of them require a different model. All of
+      them are boring engineering. Together they cut our embedding bill by roughly an order of
+      magnitude without measurably hurting retrieval quality.
+    </p>
+
+    <h2 class="reveal">Trick 1 — Deduplicate by hash before you embed</h2>
+
+    <p class="reveal">
+      In any real corpus, the same image shows up over and over. The same screenshot is dragged
+      into 40 support tickets. The same floor plan is attached to 12 RFPs. The same product photo
+      is referenced from every catalogue page.
+    </p>
+
+    <p class="reveal">
+      Before any image hits the embedding API, we hash it (a perceptual hash like <code>pHash</code> for
+      near-duplicates, plain <code>SHA-256</code> for exact ones) and check a small cache table:
+      <code>hash &rarr; embedding</code>. If we've seen the bytes before, we reuse the vector and
+      attach it to the new document. The API call never happens.
+    </p>
+
+    <p class="reveal">
+      This sounds obvious right up until you measure it. On the architecture studio's corpus,
+      <strong>roughly a third of all images were exact or near-exact duplicates</strong>. On a B2B
+      SaaS support corpus we benchmarked later it was over half. That's a flat 30–50% discount before
+      you do anything clever.
+    </p>
+
+    <h2 class="reveal">Trick 2 — Summarize video and audio, then embed the text</h2>
+
+    <p class="reveal">
+      Native multimodal video embedding is gorgeous and ruinous. You're paying per-frame, per-second,
+      per-token, and you're storing very large vectors. For most retrieval use cases — "find the
+      meeting where we discussed the Barcelona project" — you don't need frame-level fidelity.
+      You need to know what the clip <em>was about</em>.
+    </p>
+
+    <div class="comparison reveal">
+      <div class="comparison-card">
+        <div class="card-label card-label--old">Native multimodal video</div>
+        <div class="flow-step"><span class="step-hl">MP4</span></div>
+        <div class="flow-step"><span class="flow-arrow">&darr;</span> Multimodal embedding (per-frame)</div>
+        <div class="flow-step"><span class="flow-arrow">&darr;</span> Large vector(s) per clip</div>
+        <div class="flow-step"><span class="flow-arrow">&darr;</span> Index &amp; query</div>
+        <div class="flow-step" style="color: var(--text-lo); font-size: 0.72rem; margin-top: 0.5rem;">accurate, very expensive</div>
+      </div>
+      <div class="comparison-card">
+        <div class="card-label card-label--new">Summarize-then-embed</div>
+        <div class="flow-step"><span class="step-hl">MP4</span></div>
+        <div class="flow-step"><span class="flow-arrow">&darr;</span> Cheap LLM transcribes &amp; describes</div>
+        <div class="flow-step"><span class="flow-arrow">&darr;</span> Text embedding of the summary</div>
+        <div class="flow-step"><span class="flow-arrow">&darr;</span> Index &amp; query</div>
+        <div class="flow-step" style="color: var(--ember); font-size: 0.72rem; margin-top: 0.5rem;">~100&times; cheaper, "good enough" for retrieval</div>
+      </div>
+    </div>
+
+    <p class="reveal">
+      We run a cheap model — <code>Gemini Flash</code> works well, any small captioning model does too —
+      to produce a transcript plus a short visual description, concatenate them, and embed the result
+      with the regular text embedder. The vector lives in the same index as everything else.
+    </p>
+
+    <p class="reveal">
+      Cost drops by roughly two orders of magnitude versus native video embedding. The trade-off is
+      real: you lose the ability to retrieve a specific frame. For "find the meeting" or "find the
+      walkthrough" queries, nobody noticed.
+    </p>
+
+    <h2 class="reveal">Trick 3 — Matryoshka dimensions</h2>
+
+    <p class="reveal">
+      Modern embedding models — <code>Gemini Embedding 2</code> being the obvious example — are trained
+      so that the <em>first N</em> dimensions of the output vector are themselves a usable embedding.
+      You ask for 3072 dimensions, and you can truncate to 768 or 256 and still get a sensible result.
+      The name comes from Russian nesting dolls: each shorter vector is a complete embedding nested
+      inside the longer one.
+    </p>
+
+    <p class="reveal">
+      For pure filter-and-rerank retrieval — where the embedding picks a short list of candidates
+      and a stronger model does the final ranking — <strong>768 dimensions is plenty</strong>. You
+      get proportional savings on storage, on index size, and on every single query latency. We
+      kept the full 3072 vector around only for the small slice of queries that actually need it.
+    </p>
+
+    <div class="takeaway reveal">
+      <div class="takeaway-label">Rule of thumb</div>
+      <ul>
+        <li><strong>3072 dims</strong> &mdash; final ranker, high-precision search, small corpora.</li>
+        <li><strong>768 dims</strong> &mdash; default for filter-and-rerank pipelines. ~4&times; cheaper to store and query.</li>
+        <li><strong>256 dims</strong> &mdash; on-device or edge use cases where every byte counts.</li>
+      </ul>
+    </div>
+
+    <h2 class="reveal">Trick 4 — Batch mode for bulk re-embeds</h2>
+
+    <p class="reveal">
+      Sooner or later you'll need to re-embed everything. A new model comes out. You change the
+      summarization prompt. A tenant migrates in with two years of back-catalogue. Doing this on
+      the live, low-latency endpoint is the most expensive way possible.
+    </p>
+
+    <p class="reveal">
+      Most providers — Gemini, Voyage, OpenAI — offer a <strong>batch mode at roughly 50% off</strong>
+      with a 24-hour SLA. For backfills nobody is waiting on, that's a free halving of the bill. We
+      route any non-interactive job — model upgrades, nightly re-ingests, tenant onboarding — through
+      a low-priority queue that always uses batch.
+    </p>
+
+    <p class="reveal">
+      The only thing to get right is idempotency: a batch job needs to be safely re-runnable, because
+      sooner or later one will fail halfway and you'll want to retry just the missing rows.
+    </p>
+
+    <h2 class="reveal">Trick 5 — Per-tenant opt-in, default off</h2>
+
+    <p class="reveal">
+      The most expensive trick is the one that's free: don't turn the feature on for tenants who
+      don't need it.
+    </p>
+
+    <p class="reveal">
+      Most of our tenants don't have a multimodal corpus. They have invoices, POs, and emails.
+      Plain text embeddings cover them perfectly. Defaulting multimodal off, and only switching it
+      on when a customer says "we have tons of diagrams" or "we need to search our photo library",
+      eliminates a huge fraction of the cost we were quietly absorbing.
+    </p>
+
+    <p class="reveal">
+      This is also where the cost story becomes a product story: multimodal goes from a line on
+      the infra bill to a feature flag the sales team can talk about.
+    </p>
+
+    <h2 class="reveal">What we ended up with</h2>
+
+    <div class="takeaway reveal">
+      <div class="takeaway-label">The full stack</div>
+      <ul>
+        <li><strong>Hash &amp; cache</strong> every image before calling the embedder. ~30–50% discount, basically free.</li>
+        <li><strong>Summarize &amp; text-embed</strong> video and audio with a cheap captioner. ~100&times; cheaper than native multimodal video.</li>
+        <li><strong>Truncate to 768 dims</strong> for filter-and-rerank. ~4&times; cheaper storage and query.</li>
+        <li><strong>Batch mode</strong> for any backfill or re-ingest. Flat 50% off the line item.</li>
+        <li><strong>Per-tenant opt-in</strong> so you only pay for the tenants who actually benefit.</li>
+      </ul>
+    </div>
+
+    <p class="reveal">
+      None of these tricks is novel. None of them required a research paper. They're the kind of
+      thing you only think to do once you've stared at a real bill long enough. The lesson I keep
+      relearning is that the model is rarely the bottleneck — it's how much you call it, on what,
+      and whether you cached the answer last time.
+    </p>
+
+    <p class="reveal">
+      <em>Embed less. Embed smaller. Embed cheaper. Embed only when someone asked.</em>
+    </p>
+
+    <div class="discussion-box reveal">
+      <div class="discussion-label">Discussion</div>
+      <p class="discussion-text">Comments live on LinkedIn. Got a sixth trick? Drop it there.</p>
+      <a href="https://www.linkedin.com/in/davidrubiocfo/" target="_blank" class="discussion-cta">Comment on LinkedIn &#8594;</a>
+    </div>
+
+    <!-- Article Footer -->
+    <div class="article-footer reveal">
+      <div class="article-footer-label">Originally published on</div>
+      <a href="https://www.linkedin.com/in/davidrubiocfo/" target="_blank" class="original-link">
+        Read on LinkedIn &#8594;
+      </a>
+    </div>
+
+  </article>
+
+  <!-- More posts -->
+  <section class="more-posts">
+    <div class="more-posts-title">More writing</div>
+
+    <a href="/blog/multimodal-embeddings" class="more-row">
+      <span class="more-date">2026.04</span>
+      <span class="more-title">Multimodal Embeddings: One Model, One Vector Space for Everything</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+    <a href="/blog/invoice-verification-agent" class="more-row">
+      <span class="more-date">2026.04</span>
+      <span class="more-title">Let AP Clerks Do the Work That Needs a Human</span>
+      <span class="more-src">Blog</span>
+    </a>
+    <a href="/blog/semantic-caching-hana" class="more-row">
+      <span class="more-date">2026.03</span>
+      <span class="more-title">Semantic Caching for SAP HANA Cloud: 21x Faster, Zero Tokens</span>
+      <span class="more-src">LinkedIn</span>
+    </a>
+  </section>
+
+</main>
+
+</BaseLayout>
+
+<style>
+  /* ── Post Hero ── */
+  .post-hero {
+    position: relative;
+    padding: 10rem 0 4rem;
+    overflow: hidden;
+  }
+
+  .post-hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80') center/cover no-repeat;
+    filter: blur(8px) saturate(0.3) brightness(0.25);
+    transform: scale(1.05);
+    transition: filter var(--ease);
+  }
+
+  :global([data-theme="light"]) .post-hero-bg {
+    filter: blur(8px) saturate(0.35) brightness(1.1);
+  }
+
+  .post-hero-overlay {
+    position: absolute; inset: 0;
+    background: var(--hero-overlay);
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,1) 70%);
+  }
+
+  .post-hero-content {
+    position: relative; z-index: 2; max-width: 720px;
+  }
+
+  .post-back {
+    font-size: 0.75rem; color: var(--text-lo);
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-bottom: 2rem; transition: color 0.2s; text-decoration: none;
+  }
+  .post-back:hover { color: var(--ember); }
+
+  .post-meta-top {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.5rem; font-size: 0.72rem; color: var(--text-lo);
+  }
+
+  .source-badge {
+    padding: 2px 8px; border-radius: 3px;
+    border: 1px solid var(--ember-border); color: var(--ember);
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.04em;
+  }
+
+  .post-hero h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 400; line-height: 1.25;
+    color: var(--text-hi); letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-hero h1 .em { color: var(--ember); font-style: italic; }
+
+  .post-subtitle {
+    font-size: 1rem; color: var(--text);
+    max-width: 560px; line-height: 1.8;
+  }
+
+  .post-subtitle .inline-link { color: var(--ember); text-decoration: none; border-bottom: 1px dashed var(--ember-border); }
+  .post-subtitle .inline-link:hover { border-bottom-style: solid; }
+
+  .post-tags-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+  .post-tag {
+    font-size: 0.65rem; padding: 3px 8px; border-radius: 4px;
+    border: 1px solid var(--border); color: var(--text-lo);
+  }
+  .post-tag--ember { color: var(--ember); border-color: var(--ember-border); background: var(--ember-glow); }
+  .post-tag--gold { color: var(--gold); border-color: rgba(212,166,69,0.2); background: var(--gold-dim); }
+
+  /* ── Article Body ── */
+  .article { max-width: 720px; padding: 4rem 0 6rem; }
+
+  .article h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.4rem; font-weight: 400; color: var(--text-hi);
+    margin-top: 3rem; margin-bottom: 1rem;
+    padding-top: 2rem; border-top: 1px solid var(--border);
+  }
+
+  .article h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+
+  .article h3 {
+    font-size: 1rem; font-weight: 600; color: var(--text-hi);
+    margin-top: 2rem; margin-bottom: 0.75rem;
+  }
+
+  .article p {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.95rem; line-height: 1.9; color: var(--text);
+    margin-bottom: 1.25rem;
+  }
+
+  .article p .inline-link { color: var(--ember); text-decoration: none; border-bottom: 1px dashed var(--ember-border); }
+  .article p .inline-link:hover { border-bottom-style: solid; }
+
+  .article strong { color: var(--text-hi); font-weight: 600; }
+  .article em { color: var(--ember); font-style: italic; }
+
+  .article blockquote {
+    border-left: 3px solid var(--blockquote-border);
+    background: var(--blockquote-bg);
+    padding: 1.25rem 1.5rem; margin: 2rem 0;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .article blockquote p {
+    font-style: italic; color: var(--text-hi); margin-bottom: 0; font-size: 0.92rem;
+  }
+
+  .article code {
+    font-family: 'Iosevka', monospace; font-size: 0.88em;
+    background: var(--code-bg); border: 1px solid var(--code-border);
+    padding: 2px 6px; border-radius: 4px; color: var(--ember);
+  }
+
+  /* Comparison cards */
+  .comparison {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin: 2rem 0;
+  }
+
+  .comparison-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.5rem;
+  }
+
+  .card-label {
+    font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 1rem; font-weight: 600;
+  }
+  .card-label--old { color: var(--text-lo); }
+  .card-label--new { color: var(--ember); }
+
+  .flow-step {
+    font-size: 0.78rem; color: var(--text);
+    padding: 0.4rem 0; display: flex; align-items: center; gap: 0.5rem;
+  }
+  .flow-arrow { color: var(--text-lo); font-size: 0.65rem; }
+  .step-hl { color: var(--text-hi); font-weight: 500; }
+
+  /* Takeaway box */
+  .takeaway {
+    background: var(--bg-card); border: 1px solid var(--ember-border);
+    border-radius: 10px; padding: 2rem; margin: 2.5rem 0;
+  }
+
+  .takeaway-label {
+    font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--ember);
+    font-weight: 600; margin-bottom: 1rem;
+  }
+
+  .takeaway ul { list-style: none; padding: 0; }
+
+  .takeaway li {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 0.88rem; color: var(--text);
+    padding: 0.5rem 0; padding-left: 1.2rem;
+    position: relative; line-height: 1.7;
+  }
+
+  .takeaway li::before {
+    content: '›'; position: absolute; left: 0;
+    color: var(--ember); font-weight: 700;
+  }
+
+  /* Article footer */
+  .article-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 2.5rem; margin-top: 3rem;
+  }
+
+  .article-footer-label {
+    font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1rem;
+  }
+
+  .original-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.85rem; color: var(--text-hi);
+    padding: 0.75rem 1.25rem; border: 1px solid var(--border);
+    border-radius: 8px; transition: all 0.2s; text-decoration: none;
+  }
+  .original-link:hover { border-color: var(--ember-border); color: var(--ember); }
+
+  /* More posts */
+  .more-posts { padding: 4rem 0; border-top: 1px solid var(--border); }
+
+  .more-posts-title {
+    font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-lo); margin-bottom: 1.5rem;
+  }
+
+  .more-row {
+    display: grid; grid-template-columns: 90px 1fr auto;
+    gap: 1.5rem; align-items: baseline;
+    padding: 1.25rem 0; border-top: 1px solid var(--border);
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+  }
+  .more-row:hover { padding-left: 0.75rem; }
+  .more-row:hover .more-title { color: var(--ember); }
+
+  .more-date { font-size: 0.72rem; color: var(--text-lo); font-variant-numeric: tabular-nums; }
+  .more-title { font-size: 0.85rem; color: var(--text-hi); transition: color 0.2s; }
+  .more-src { font-size: 0.65rem; color: var(--text-lo); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  @media (max-width: 768px) {
+    .comparison { grid-template-columns: 1fr; }
+    .more-row { grid-template-columns: 1fr; gap: 0.3rem; }
+    .post-hero { padding: 8rem 0 3rem; }
+  }
+</style>
+
