@@ -3,8 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout
-  title="Multimodal Embeddings on a Budget: 5 Tricks to Crush the Cost — ~/stubborncoder"
-  description="A follow-up on multimodal embeddings: five practical tricks we used to cut embedding bills by an order of magnitude without losing retrieval quality."
+  title="Multimodal Embeddings on a Budget: 5 Ways to Cut the Bill ~ stubborncoder"
+  description="A follow-up on multimodal embeddings. Five practical ways we cut embedding bills by an order of magnitude without losing retrieval quality."
   activeLink="writing"
 >
 
@@ -22,12 +22,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       <span class="source-badge">LinkedIn</span>
     </div>
 
-    <h1 class="reveal">Multimodal Embeddings on a Budget:<br>5 Tricks to <span class="em">Crush the Cost</span></h1>
+    <h1 class="reveal">Multimodal Embeddings on a Budget:<br>5 Ways to <span class="em">Cut the Bill</span></h1>
 
     <p class="post-subtitle reveal">
       A follow-up to <a href="/blog/multimodal-embeddings" class="inline-link">One Model, One Vector Space</a>.
-      Multimodal retrieval is magic — and the bill at the end of the month will remind you it isn't free.
-      Here are the five tricks that actually moved the needle.
+      Multimodal retrieval feels like magic. The bill at the end of the month is a fast reminder that it isn't free.
+      Here are the five things that actually moved the needle for us.
     </p>
 
     <div class="post-tags-row reveal">
@@ -52,7 +52,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     <p class="reveal">
       Then we ran the math on rolling it out to ten more tenants and the smile went away.
-      Embedding everything — every screenshot, every floor plan, every page of every spec — adds up
+      Embedding everything (every screenshot, every floor plan, every page of every spec) adds up
       fast. Multimodal vectors are bigger. Image and video tokens are pricier than text tokens.
       Re-embedding when you upgrade the model multiplies the bill all over again.
     </p>
@@ -62,12 +62,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </blockquote>
 
     <p class="reveal">
-      Below are the five tricks we ended up shipping. None of them require a different model. All of
+      Below are the five things we ended up shipping. None of them require a different model. All of
       them are boring engineering. Together they cut our embedding bill by roughly an order of
       magnitude without measurably hurting retrieval quality.
     </p>
 
-    <h2 class="reveal">Trick 1 — Deduplicate by hash before you embed</h2>
+    <h2 class="reveal">1. Skip what you've already embedded</h2>
 
     <p class="reveal">
       In any real corpus, the same image shows up over and over. The same screenshot is dragged
@@ -89,12 +89,12 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       you do anything clever.
     </p>
 
-    <h2 class="reveal">Trick 2 — Summarize video and audio, then embed the text</h2>
+    <h2 class="reveal">2. Summarize video and audio, then embed the text</h2>
 
     <p class="reveal">
       Native multimodal video embedding is gorgeous and ruinous. You're paying per-frame, per-second,
-      per-token, and you're storing very large vectors. For most retrieval use cases — "find the
-      meeting where we discussed the Barcelona project" — you don't need frame-level fidelity.
+      per-token, and you're storing very large vectors. For most retrieval use cases (think "find the
+      meeting where we discussed the Barcelona project") you don't need frame-level fidelity.
       You need to know what the clip <em>was about</em>.
     </p>
 
@@ -118,7 +118,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
 
     <p class="reveal">
-      We run a cheap model — <code>Gemini Flash</code> works well, any small captioning model does too —
+      We run a cheap model (<code>Gemini Flash</code> works well, any small captioning model does too)
       to produce a transcript plus a short visual description, concatenate them, and embed the result
       with the regular text embedder. The vector lives in the same index as everything else.
     </p>
@@ -129,33 +129,40 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       walkthrough" queries, nobody noticed.
     </p>
 
-    <h2 class="reveal">Trick 3 — Matryoshka dimensions</h2>
+    <h2 class="reveal">3. Use shorter vectors when full precision isn't needed</h2>
 
     <p class="reveal">
-      Modern embedding models — <code>Gemini Embedding 2</code> being the obvious example — are trained
-      so that the <em>first N</em> dimensions of the output vector are themselves a usable embedding.
-      You ask for 3072 dimensions, and you can truncate to 768 or 256 and still get a sensible result.
-      The name comes from Russian nesting dolls: each shorter vector is a complete embedding nested
-      inside the longer one.
+      Think of an embedding the way you'd think of a photo. The full-resolution version is huge,
+      crisp enough to print on a billboard. A thumbnail is tiny, but it's still recognisable: you
+      can tell at a glance whether it's the right photo. Most of the time, the thumbnail is all
+      you actually need.
     </p>
 
     <p class="reveal">
-      For pure filter-and-rerank retrieval — where the embedding picks a short list of candidates
-      and a stronger model does the final ranking — <strong>768 dimensions is plenty</strong>. You
-      get proportional savings on storage, on index size, and on every single query latency. We
-      kept the full 3072 vector around only for the small slice of queries that actually need it.
+      Modern embedding models work the same way. They produce a long vector (a list of about 3,000
+      numbers in the case of <code>Gemini Embedding 2</code>), but they're trained so that the
+      <em>first slice</em> of those numbers is itself a complete, smaller embedding. You can keep
+      just the first 768 numbers and throw the rest away. Same photo, smaller file.
+    </p>
+
+    <p class="reveal">
+      For most search use cases, where the embedding's job is to narrow a few thousand candidates
+      down to a shortlist that a smarter model then ranks, <strong>the shorter version is plenty</strong>.
+      The index gets four times smaller. Every query gets faster. Storage drops by the same factor.
+      We kept the full-resolution vector around only for the small slice of queries that actually
+      need it.
     </p>
 
     <div class="takeaway reveal">
       <div class="takeaway-label">Rule of thumb</div>
       <ul>
-        <li><strong>3072 dims</strong> &mdash; final ranker, high-precision search, small corpora.</li>
-        <li><strong>768 dims</strong> &mdash; default for filter-and-rerank pipelines. ~4&times; cheaper to store and query.</li>
-        <li><strong>256 dims</strong> &mdash; on-device or edge use cases where every byte counts.</li>
+        <li><strong>Full vector (~3,000 numbers).</strong> Use when you need the highest precision, or when the corpus is small enough that storage doesn't matter.</li>
+        <li><strong>Shorter vector (768 numbers).</strong> The sensible default for filter-and-rerank pipelines. About 4 times cheaper to store and query.</li>
+        <li><strong>Tiny vector (256 numbers).</strong> For edge or on-device use cases where every byte counts.</li>
       </ul>
     </div>
 
-    <h2 class="reveal">Trick 4 — Batch mode for bulk re-embeds</h2>
+    <h2 class="reveal">4. Use batch mode for backfills</h2>
 
     <p class="reveal">
       Sooner or later you'll need to re-embed everything. A new model comes out. You change the
@@ -164,9 +171,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </p>
 
     <p class="reveal">
-      Most providers — Gemini, Voyage, OpenAI — offer a <strong>batch mode at roughly 50% off</strong>
+      Most providers (Gemini, Voyage, OpenAI) offer a <strong>batch mode at roughly 50% off</strong>
       with a 24-hour SLA. For backfills nobody is waiting on, that's a free halving of the bill. We
-      route any non-interactive job — model upgrades, nightly re-ingests, tenant onboarding — through
+      route any non-interactive job (model upgrades, nightly re-ingests, tenant onboarding) through
       a low-priority queue that always uses batch.
     </p>
 
@@ -175,10 +182,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
       sooner or later one will fail halfway and you'll want to retry just the missing rows.
     </p>
 
-    <h2 class="reveal">Trick 5 — Per-tenant opt-in, default off</h2>
+    <h2 class="reveal">5. Default off, opt in per tenant</h2>
 
     <p class="reveal">
-      The most expensive trick is the one that's free: don't turn the feature on for tenants who
+      The cheapest saving of all is the one that's free: don't turn the feature on for tenants who
       don't need it.
     </p>
 
@@ -208,10 +215,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     </div>
 
     <p class="reveal">
-      None of these tricks is novel. None of them required a research paper. They're the kind of
-      thing you only think to do once you've stared at a real bill long enough. The lesson I keep
-      relearning is that the model is rarely the bottleneck — it's how much you call it, on what,
-      and whether you cached the answer last time.
+      None of this is novel. None of it required a research paper. It's the kind of thing you only
+      think to do once you've stared at a real bill long enough. The lesson I keep relearning is
+      that the model is rarely the bottleneck. What matters is how much you call it, on what, and
+      whether you cached the answer last time.
     </p>
 
     <p class="reveal">
@@ -220,7 +227,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
     <div class="discussion-box reveal">
       <div class="discussion-label">Discussion</div>
-      <p class="discussion-text">Comments live on LinkedIn. Got a sixth trick? Drop it there.</p>
+      <p class="discussion-text">Comments live on LinkedIn. Got a sixth way to cut the bill? Drop it there.</p>
       <a href="https://www.linkedin.com/in/davidrubiocfo/" target="_blank" class="discussion-cta">Comment on LinkedIn &#8594;</a>
     </div>
 
